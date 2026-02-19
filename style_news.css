@@ -1,8 +1,8 @@
 /* --- General Setup --- */
 body {
     margin: 0;
-    font-family: 'Sarabun', sans-serif;
     background-color: #333;
+    font-family: 'Prompt', sans-serif;
 }
 
 .wrapper {
@@ -80,6 +80,35 @@ body {
 .research-section, .innovators-section {
     background-color: #ffffff;
     padding: 40px;
+}
+
+/* กรอบหน้าต่าง: ซ่อนสิ่งที่ล้นออกไป */
+.slider-container {
+    width: 100%;
+    overflow: hidden; /* สำคัญมาก! ตัดส่วนเกินทิ้ง */
+    position: relative;
+}
+
+/* รางเลื่อน: เรียงของเป็นแนวนอนยาวๆ */
+.slider-track {
+    display: flex; /* เปลี่ยนจาก Grid เป็น Flex */
+    transition: transform 0.5s ease-in-out; /* ทำให้การเลื่อนนุ่มนวล */
+    width: 100%; 
+}
+
+/* การ์ด: บังคับให้มีความกว้าง 1 ใน 3 ของหน้าจอ (33.33%) */
+.slider-track .card {
+    min-width: 33.33%; /* โชว์ทีละ 3 ใบ */
+    flex-shrink: 0;    /* ห้ามการ์ดหดตัว */
+    box-sizing: border-box;
+    padding: 0 10px;   /* เว้นช่องไฟระหว่างการ์ด */
+}
+
+/* Responsive: มือถือโชว์ทีละ 1 ใบ */
+@media screen and (max-width: 768px) {
+    .slider-track .card {
+        min-width: 100%;
+    }
 }
 
 /* --- Grid & Cards --- */

@@ -6,6 +6,7 @@
     <title>IOTE News</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_news.css">
 </head>
 <body>
@@ -34,26 +35,38 @@
         </div>
         <div class="sub-title">HIGHLIGHTS</div>
         
-        <div class="grid-container">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="IOTE CAMP">
-                <div class="card-body">
-                    ภาพบรรยากาศ IOTE CAMP ครั้งที่ 2 ผู้เข้าร่วมงานจะได้รับความสนุก ความรู้ และประสบการณ์ไม่ว่าจะเป็นด้าน IOT, ELECTRONICS, COMPUTER PROGRAMMING, WEB & MOBILE APP DEVELOPMENT...
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Group Photo">
-                <div class="card-body">
-                    ศาสตราจารย์ ดร.อภิรัฐ ศิริธราธิวัตร คณะวิศวกรรมศาสตร์ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง ได้รับรางวัลนักวิจัยดีเด่นแห่งชาติ ประจำปี 2569...
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1540317580384-e5d43867caa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Huawei Activity">
-                <div class="card-body">
-                    บริษัท หัวเว่ย เทคโนโลยี่ (ประเทศไทย) จำกัด และวิทยากร ได้ให้เกียรติมาร่วมบรรยายในงานสัมมนาเชิงวิชาการในหัวข้อ "LEARNING OPPORTUNITIES AND CAREER PATHS IN CLOUD TECHNOLOGY WITH HUAWEI"
-                </div>
-            </div>
+        <div class="slider-container">
+
+    <div class="slider-track" id="newsTrack">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 1">
+            <div class="card-body">ข่าวที่ 1: IOTE CAMP ครั้งที่ 2 สนุกมาก...</div>
         </div>
+        
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 2">
+            <div class="card-body">ข่าวที่ 2: ขอแสดงความยินดีกับรางวัลนักวิจัยดีเด่น...</div>
+        </div>
+        
+        <div class="card">
+            <img src="https://thumbs.dreamstime.com/b/northern-sunset-part-2-941312.jpg" alt="News 3">
+            <div class="card-body">ข่าวที่ 3: Huawei บรรยายเรื่อง Cloud Technology...</div>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="News 4">
+            <div class="card-body">ข่าวที่ 4: กิจกรรม Open House เปิดบ้านวิศวะ...</div>
+        </div>
+
+        <div class="card">
+            <img src="https://thumbs.dreamstime.com/b/northern-sunset-part-2-941312.jpg" alt="News 5">
+            <div class="card-body">ข่าวที่ 3: Huawei บรรยายเรื่อง Cloud Technology...</div>
+        </div>
+
+    </div>
+</div>
+
+
     </section>
 
     <section class="research-section">
@@ -162,6 +175,35 @@
         </div>
     </footer>
 </div>
+
+<script>
+    const track = document.getElementById('newsTrack');
+    const cards = track.querySelectorAll('.card');
+    const totalCards = cards.length;
+    
+    // ตั้งค่าให้โชว์ทีละ 3 ใบ (ต้องตรงกับ CSS min-width 33.33%)
+    const cardsPerView = 3; 
+    
+    let currentIndex = 0;
+
+    function slideNews() {
+        currentIndex++;
+
+        // ถ้าเลื่อนไปจนสุด (ข่าวหมด) ให้วนกลับมาที่แรก
+        if (currentIndex > totalCards - cardsPerView) {
+            currentIndex = 0;
+        }
+
+        // คำนวณระยะทางที่จะเลื่อน (เลื่อนทีละ 33.33%)
+        // ถ้าดูบนมือถือต้องแก้เป็น 100% แต่ในที่นี้เราใช้ calculation อิงจาก % ที่ตั้งไว้
+        const translateValue = currentIndex * (100 / cardsPerView);
+        
+        track.style.transform = `translateX(-${translateValue}%)`;
+    }
+
+    // ตั้งเวลาให้ทำงานทุกๆ 5000 มิลลิวินาที (5 วินาที)
+    setInterval(slideNews, 3000);
+</script>
 
 </body>
 </html>
