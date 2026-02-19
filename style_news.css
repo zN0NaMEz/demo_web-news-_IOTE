@@ -72,7 +72,7 @@ body {
 
 /* --- Highlights Section (Orange Background) --- */
 .highlights-section {
-    background-color: #d99e6a;
+    background-image: linear-gradient(to bottom, rgba(191, 87, 0, 0), #BF5700);
     padding: 40px;
 }
 
