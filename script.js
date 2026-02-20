@@ -91,3 +91,26 @@ if (searchInput) {
         applyFilters();
     });
 }
+
+// ==========================================
+// 3. ระบบ Mobile Navbar (Hamburger Menu)
+// ==========================================
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks = document.getElementById('navLinks');
+
+if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+        // สลับคลาส 'active' เพื่อโชว์/ซ่อน เมนู
+        navLinks.classList.toggle('active');
+        
+        // สลับไอคอนระหว่าง ขีด3ขีด กับ กากบาท
+        const icon = mobileMenuBtn.querySelector('i');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    });
+}

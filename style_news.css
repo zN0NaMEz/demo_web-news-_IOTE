@@ -525,3 +525,116 @@ body {
     background-color: #9c4700;
     transform: scale(1.05);
 }
+
+/* =========================================
+   Responsive Design (Media Queries)
+   ========================================= */
+
+/* ซ่อนปุ่ม Hamburger บนจอคอม */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+/* --- สำหรับ Tablet (หน้าจอขนาดกลาง) --- */
+@media screen and (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* ปรับกริดเหลือ 2 คอลัมน์ */
+    }
+    .header-title {
+        font-size: 42px; /* ลดขนาดหัวข้อ */
+    }
+}
+
+/* --- สำหรับ Mobile (หน้าจอขนาดเล็ก) --- */
+@media screen and (max-width: 768px) {
+    
+    /* 1. Navbar & Menu */
+    .navbar {
+        padding: 15px 20px;
+        position: relative; /* เพื่อให้เมนู Dropdown อิงตำแหน่งจากตรงนี้ */
+    }
+    
+    .mobile-menu-btn {
+        display: block; /* แสดงปุ่ม Hamburger */
+    }
+
+    .nav-links {
+        display: none; /* ซ่อนเมนูไว้ก่อน */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px; /* ให้หลบใต้ Navbar พอดี */
+        left: 0;
+        background-color: var(--bg-light);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        padding: 20px 0;
+        z-index: 100; /* ให้อยู่เหนือเนื้อหาอื่นๆ */
+    }
+
+    /* คลาสนี้จะถูกเรียกใช้ผ่าน JS เวลาคลิกปุ่ม */
+    .nav-links.active {
+        display: flex;
+        display: flex !important;
+    }
+
+    .nav-links li {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    /* 2. Typography */
+    .header-title {
+        font-size: 32px;
+    }
+    .sub-title {
+        font-size: 20px;
+    }
+
+    /* 3. Slider (โชว์ทีละ 1 รูป) */
+    .slider-track .card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* 4. Grid Layouts (เหลือ 1 คอลัมน์) */
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* 5. Hero Layouts (Activities) */
+    .hero-layout {
+        grid-template-columns: 1fr;
+    }
+    .hero-main-card img {
+        height: 250px;
+    }
+    .hero-side-cards {
+        gap: 20px;
+    }
+
+    /* 6. Hero Layouts (Awards - สลับกลับให้รูปใหญ่อยู่บน) */
+    .innovators-section .hero-layout {
+        grid-template-columns: 1fr; 
+    }
+    .innovators-section .hero-layout .hero-main-card {
+        order: 1; 
+    }
+    .innovators-section .hero-layout .hero-side-cards {
+        order: 2; 
+    }
+
+    /* 7. Footer */
+    .footer {
+        flex-direction: column; /* เปลี่ยนจากซ้าย-ขวา เป็น บน-ล่าง */
+        padding: 30px 20px;
+        gap: 30px;
+    }
+    .footer-right {
+        padding-left: 0;
+    }
+}
