@@ -3,12 +3,12 @@
 // ==========================================
 const track = document.getElementById('newsTrack');
 
-if (track) { 
+if (track) {
     const cards = track.querySelectorAll('.card');
     const totalCards = cards.length;
-    
+
     // ตั้งค่าให้โชว์ทีละ 3 ใบ (มือถือโชว์ทีละ 1 ใบ)
-    let cardsPerView = window.innerWidth <= 768 ? 1 : 3; 
+    let cardsPerView = window.innerWidth <= 768 ? 1 : 3;
     let currentIndex = 0;
 
     // อัปเดตจำนวนการ์ดที่โชว์เมื่อมีการย่อ/ขยายหน้าจอ
@@ -26,7 +26,7 @@ if (track) {
 
         // ให้ JS วัดความกว้างจริงของการ์ดใบแรก ณ เวลานั้นเลย
         const cardWidth = cards[0].offsetWidth;
-        
+
         // สั่งเลื่อนตามพิกเซลจริง
         track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
     }
@@ -35,48 +35,59 @@ if (track) {
     setInterval(slideNews, 3000);
 }
 
-
 // ==========================================
-// 2. ระบบ Filter ข่าว (Tab Menu)
+// 2. ระบบ Filter ข่าว และ ค้นหา (Search & Tab Menu)
 // ==========================================
 const filterButtons = document.querySelectorAll('.filter-btn');
 const filterItems = document.querySelectorAll('.filter-item');
+const searchInput = document.getElementById('newsSearchInput');
 
-// เช็กว่ามีปุ่มและมีการ์ดข่าวให้ Filter หรือไม่
-if (filterButtons.length > 0 && filterItems.length > 0) {
-    
+// ฟังก์ชันหลักสำหรับกรองข่าว (เช็กทั้งปุ่มที่กด และ คำที่พิมพ์ค้นหา)
+function applyFilters() {
+    // 1. ดูว่าตอนนี้ปุ่มไหนถูกกดอยู่ (All, Award, Activity)
+    const activeBtn = document.querySelector('.filter-btn.active');
+    const currentCategory = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+
+    // 2. ดูว่าพิมพ์คำว่าอะไรอยู่ (ทำให้เป็นตัวพิมพ์เล็กทั้งหมดเพื่อเทียบง่ายๆ)
+    const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
+
+    // 3. วนลูปเช็กการ์ดทุกใบ
+    filterItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        // ดึงข้อความทั้งหมดในการ์ดใบนั้น (รวมถึงคำใน Badge ด้วย)
+        const itemText = item.textContent.toLowerCase();
+
+        // เงื่อนไขที่ 1: ตรงกับปุ่มหมวดหมู่ไหม?
+        const matchesCategory = (currentCategory === 'all' || itemCategory === currentCategory);
+        // เงื่อนไขที่ 2: มีคำที่พิมพ์ค้นหาไหม?
+        const matchesSearch = itemText.includes(searchQuery);
+
+        // ถ้าผ่านทั้ง 2 เงื่อนไข ให้โชว์การ์ด
+        if (matchesCategory && matchesSearch) {
+            item.classList.remove('hide');
+        } else {
+            item.classList.add('hide'); // ถ้าไม่ตรงให้ซ่อน
+        }
+    });
+}
+
+// ผูกระบบเข้ากับปุ่ม Tab Menu
+if (filterButtons.length > 0) {
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            
-            // 2.1 ลบสถานะ Active สีส้ม ออกจากปุ่มทั้งหมด
+            // สลับสถานะ Active
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // 2.2 ใส่สถานะ Active ให้ปุ่มที่เพิ่งกด
             button.classList.add('active');
 
-            // 2.3 ดึงค่าว่าปุ่มนี้คือหมวดหมู่อะไร (all, research, award, activity)
-            const filterValue = button.getAttribute('data-filter');
-
-            // 2.4 วนลูปเช็กการ์ดข่าวทุกใบ
-            filterItems.forEach(item => {
-                const itemCategory = item.getAttribute('data-category');
-                
-                // ถ้ากด "ทั้งหมด" หรือ หมวดหมู่ตรงกัน -> แสดงการ์ด
-                if (filterValue === 'all' || itemCategory === filterValue) {
-                    item.classList.remove('hide');
-                    
-                    // เพิ่มลูกเล่น Fade-in ให้การ์ดค่อยๆ ปรากฏ
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.transition = 'opacity 0.4s ease';
-                        item.style.opacity = '1';
-                    }, 50);
-
-                } else {
-                    // ถ้าหมวดหมู่ไม่ตรง -> ซ่อนการ์ด
-                    item.classList.add('hide');
-                }
-            });
+            // เรียกฟังก์ชันกรองข่าว
+            applyFilters();
         });
+    });
+}
+
+// ผูกระบบเข้ากับช่องค้นหา (ทำงานทันทีที่พิมพ์)
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        applyFilters();
     });
 }
