@@ -638,3 +638,119 @@ body {
         padding-left: 0;
     }
 }
+
+/* =========================================
+   UI Polish (ปรับความสวยงาม & ลวดลาย)
+   ========================================= */
+
+/* ทำให้การ์ดขอบมนดูทันสมัยขึ้น และเงาดูนุ่มนวลขึ้น */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.text-box-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+/* ใส่ลายพื้นหลัง (Pattern) ให้ Section ต่างๆ */
+.activity-section {
+    background-color: #fcfcfc;
+    /* ลายจุด (Polka Dots) จางๆ */
+    background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.innovators-section {
+    background-color: #ffffff;
+    /* ลายตาราง (Grid) จางๆ ให้ดูเป็น Tech */
+    background-image: linear-gradient(to right, #f4f4f4 1px, transparent 1px),
+                      linear-gradient(to bottom, #f4f4f4 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* =========================================
+   Scroll Animations (อนิเมชั่นตอนเลื่อนลงมาเจอ)
+   ========================================= */
+.reveal {
+    opacity: 0; /* ซ่อนไว้ก่อน */
+    transform: translateY(40px); /* ดึงลงไปด้านล่าง 40px */
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* ตั้งค่าความเด้งนุ่มๆ */
+}
+
+.reveal.active {
+    opacity: 1; /* แสดงผล */
+    transform: translateY(0); /* เด้งกลับมาตำแหน่งเดิม */
+}
+
+/* =========================================
+   Fix: ปรับรูปใน HIGHLIGHTS ให้เหมือนช่องอื่น
+   ========================================= */
+
+/* 1. เข้าถึงเฉพาะการ์ดที่อยู่ในรางเลื่อน (newsTrack) */
+#newsTrack .card {
+    /* ให้การ์ดมีความสูงสม่ำเสมอกัน */
+    height: 100%; 
+    /* ตรวจสอบว่ามีขอบมนเหมือนการ์ดอื่น (เผื่อโดนทับ) */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* 2. เข้าถึงเฉพาะ "รูปภาพ" ที่อยู่ในการ์ดเหล่านั้น */
+#newsTrack .card img {
+    /* บังคับความสูงให้เท่ากับการ์ดมาตรฐาน (250px) */
+    height: 250px !important; 
+    
+    /* สำคัญมาก: สั่งให้ตัดส่วนเกินออก (Crop) รูปจะไม่เบี้ยวหรือโดนบีบ */
+    object-fit: cover !important; 
+    
+    width: 100%;
+}
+
+/* =========================================
+   Scroll to Top Button
+   ========================================= */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #BF5700;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    opacity: 0; /* ซ่อนไว้ก่อนตอนอยู่บนสุด */
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 999; /* ให้อยู่ลอยอยู่บนสุดเสมอ */
+}
+
+.scroll-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background-color: #9c4700;
+    transform: translateY(-5px); /* เวลาชี้ให้ลอยขึ้นนิดนึง */
+}
+
+/* ปรับตำแหน่งบนมือถือไม่ให้ชิดขอบเกินไป */
+@media screen and (max-width: 768px) {
+    .scroll-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}

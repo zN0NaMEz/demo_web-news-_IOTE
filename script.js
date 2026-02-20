@@ -114,3 +114,71 @@ if (mobileMenuBtn && navLinks) {
         }
     });
 }
+
+// ==========================================
+// 4. Scroll Animation (เลื่อนจอแล้วโผล่)
+// ==========================================
+
+// เลือกสิ่งที่เราอยากให้มีอนิเมชั่นเด้งขึ้นมา
+const animateElements = document.querySelectorAll('.header-title-container, .card, .text-box-card, .filter-menu');
+
+// วนลูปเพื่อใส่คลาส 'reveal' ให้กับทุกชิ้น
+animateElements.forEach((el, index) => {
+    el.classList.add('reveal');
+    
+    // ทริค: ให้การ์ดที่อยู่ติดกัน ค่อยๆ เด้งเหลื่อมเวลากัน (0.1วิ, 0.2วิ) ทำให้ดูสมูทมาก
+    // ยกเว้นส่วน Slider ด้านบน ให้เด้งพร้อมกัน
+    if(!el.closest('.slider-track')) {
+        el.style.transitionDelay = `${(index % 3) * 0.15}s`;
+    }
+});
+
+// ใช้ Intersection Observer เพื่อจับตาดูว่าตอนเลื่อนเมาส์ ของชิ้นนั้นโผล่เข้ามาในจอหรือยัง
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1 // ทำงานเมื่อเห็นของชิ้นนั้นโผล่มา 10%
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // ถ้าเลื่อนมาเจอ ให้ใส่คลาส active (โชว์อนิเมชั่น)
+            entry.target.classList.add('active');
+            
+            // สั่งให้เลิกจับตาดู (เพื่อให้มันเด้งแค่ครั้งแรกครั้งเดียว)
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+// เริ่มจับตาดูทุกชิ้นที่มีคลาส reveal
+document.querySelectorAll('.reveal').forEach((el) => {
+    observer.observe(el);
+});
+
+// ==========================================
+// 5. ระบบ Scroll to Top (ปุ่มเลื่อนกลับบนสุด)
+// ==========================================
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+if (scrollTopBtn) {
+    // เช็กระยะการเลื่อนหน้าจอ
+    window.addEventListener("scroll", () => {
+        // ถ้าเลื่อนลงมาเกิน 300px ให้โชว์ปุ่ม
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add("show");
+        } else {
+            // ถ้าอยู่บนสุดให้ซ่อนปุ่ม
+            scrollTopBtn.classList.remove("show");
+        }
+    });
+
+    // เมื่อคลิกปุ่ม ให้เลื่อนกลับไปบนสุดแบบนุ่มนวล
+    scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // เลื่อนแบบสมูท
+        });
+    });
+}
