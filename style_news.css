@@ -104,18 +104,15 @@ body {
     display: flex;
     transition: transform 0.5s ease-in-out;
     width: 100%;
-    gap: 0 !important;
+    gap: 20px !important;
     /* บังคับปิด gap เพื่อไม่ให้การคำนวณเพี้ยน */
 }
 
 .slider-track .card {
-    flex: 0 0 33.3333%;
-    /* บังคับให้การ์ดกว้าง 1 ใน 3 เป๊ะๆ */
-    max-width: 33.3333%;
-    padding: 0 10px;
-    /* ใช้ padding ในการทำระยะห่างแทน gap */
+    flex: 0 0 calc(33.3333% - 16px); 
+    max-width: calc(33.3333% - 16px);
+    padding: 0; 
     box-sizing: border-box;
-    /* สำคัญ: สั่งให้ padding รวมอยู่ใน 33.33% แล้ว */
 }
 
 /* Responsive สำหรับหน้าจอมือถือ (โชว์ทีละ 1 ใบ) */

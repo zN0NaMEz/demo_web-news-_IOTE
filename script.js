@@ -1,19 +1,21 @@
 // ==========================================
-// 1. ระบบ Slider ข่าว (News Carousel)
+// 1. ระบบ Slider ข่าว (News Carousel) - แก้ไขบั๊กเลื่อนไม่ตรง
 // ==========================================
 const track = document.getElementById('newsTrack');
 
-if (track) {
+if (track) { 
     const cards = track.querySelectorAll('.card');
     const totalCards = cards.length;
-
+    
     // ตั้งค่าให้โชว์ทีละ 3 ใบ (มือถือโชว์ทีละ 1 ใบ)
-    let cardsPerView = window.innerWidth <= 768 ? 1 : 3;
+    let cardsPerView = window.innerWidth <= 768 ? 1 : 3; 
     let currentIndex = 0;
 
-    // อัปเดตจำนวนการ์ดที่โชว์เมื่อมีการย่อ/ขยายหน้าจอ
+    // เมื่อมีการย่อ/ขยายหน้าจอ ให้รีเซ็ตกลับไปรูปแรกสุดเพื่อป้องกันการแสดงผลเพี้ยน
     window.addEventListener('resize', () => {
         cardsPerView = window.innerWidth <= 768 ? 1 : 3;
+        currentIndex = 0;
+        track.style.transform = `translateX(0px)`;
     });
 
     function slideNews() {
@@ -24,11 +26,14 @@ if (track) {
             currentIndex = 0;
         }
 
-        // ให้ JS วัดความกว้างจริงของการ์ดใบแรก ณ เวลานั้นเลย
-        const cardWidth = cards[0].offsetWidth;
-
-        // สั่งเลื่อนตามพิกเซลจริง
-        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+        // วิธีที่แม่นยำ 100%: วัดระยะห่างจริงระหว่างใบที่ 1 และใบที่ 2 
+        // (รวมความกว้างการ์ด + Gap + เศษทศนิยมไว้ครบถ้วน)
+        const card1Position = cards[0].getBoundingClientRect().left;
+        const card2Position = cards[1].getBoundingClientRect().left;
+        const exactDistance = card2Position - card1Position;
+        
+        // สั่งเลื่อนตามระยะที่วัดได้เป๊ะๆ
+        track.style.transform = `translateX(-${currentIndex * exactDistance}px)`;
     }
 
     // เลื่อนอัตโนมัติทุกๆ 3 วินาที (3000 ms)
