@@ -189,3 +189,76 @@ if (scrollTopBtn) {
         });
     });
 }
+
+// ==========================================
+// 6. ระบบ Popup อ่านข่าวเต็ม (News Modal)
+// ==========================================
+const modal = document.getElementById('newsModal');
+const closeBtn = document.getElementById('closeModalBtn');
+const modalImage = document.getElementById('modalImage');
+const modalTitle = document.getElementById('modalTitle');
+const modalBadge = document.getElementById('modalBadge');
+const modalDesc = document.getElementById('modalDescription');
+
+// ดึงการ์ดข่าวทั้งหมดมาทำงาน
+const newsCards = document.querySelectorAll('.card');
+
+newsCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+        // ป้องกันไม่ให้ลิงก์ที่อยู่ในการ์ดเปลี่ยนหน้าเว็บ
+        e.preventDefault();
+
+        // 1. ดึงรูปภาพจากการ์ด
+        const img = card.querySelector('img');
+        modalImage.src = img ? img.src : 'pic/IOTE.png'; // ถ้ารูปไม่มีให้ใช้โลโก้แทน
+
+        // 2. ดึงป้าย Badge
+        const badge = card.querySelector('.news-badge');
+        if (badge) {
+            modalBadge.innerText = badge.innerText;
+            modalBadge.style.backgroundColor = badge.style.backgroundColor || '#BF5700';
+            modalBadge.style.display = 'inline-block';
+        } else {
+            modalBadge.style.display = 'none';
+        }
+
+        // 3. ดึงหัวข้อและเนื้อหา
+        // เนื่องจากโครงสร้างการ์ดของเรามีหลายแบบ เราจะเช็กทีละแบบ
+        if (card.classList.contains('hero-main-card')) {
+            modalTitle.innerText = card.querySelector('.hero-title').innerText;
+            modalDesc.innerHTML = card.querySelector('.hero-desc').innerHTML + "<br><br><b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็ม คุณสามารถเชื่อมต่อฐานข้อมูลเพื่อดึงเนื้อหาข่าวจริงๆ มาแสดงตรงนี้ได้ในอนาคต";
+        } else if (card.querySelector('.side-title')) {
+            modalTitle.innerText = card.querySelector('.side-title').innerText;
+            modalDesc.innerHTML = "คลิกเพื่อดูรายละเอียดฉบับเต็ม... <br><br><b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็ม...";
+        } else {
+            // สำหรับการ์ดทั่วไป (ดึงข้อความจาก card-body แล้วตัด Badge ออก)
+            let cloneBody = card.querySelector('.card-body').cloneNode(true);
+            let badgeInClone = cloneBody.querySelector('.news-badge');
+            if (badgeInClone) cloneBody.removeChild(badgeInClone);
+
+            modalTitle.innerText = cloneBody.innerText.trim();
+            modalDesc.innerHTML = "<b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็มของ " + modalTitle.innerText;
+        }
+
+        // 4. แสดง Popup
+        modal.style.display = 'flex';
+        // หยุดการเลื่อนของหน้าเว็บหลัก
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+// ฟังก์ชันปิด Popup เมื่อกดกากบาท
+if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // คืนค่าให้หน้าเว็บเลื่อนได้ปกติ
+    });
+}
+
+// ฟังก์ชันปิด Popup เมื่อคลิกพื้นที่สีดำรอบๆ
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});

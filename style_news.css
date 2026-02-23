@@ -831,3 +831,98 @@ body {
         font-size: 18px;
     }
 }
+
+/* =========================================
+   News Modal (Popup) Styles
+   ========================================= */
+.modal-overlay {
+    display: none; /* ซ่อนไว้ก่อนเป็นค่าเริ่มต้น */
+    position: fixed;
+    z-index: 2000; /* ให้อยู่บนสุดทับทุกอย่าง รวมถึง Navbar */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* พื้นหลังสีดำโปร่งใส */
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px); /* เบลอพื้นหลังเล็กน้อยให้ดูพรีเมียม */
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh; /* ความสูงไม่เกิน 90% ของหน้าจอ */
+    overflow-y: auto; /* ถ้าเนื้อหายาวให้เลื่อนลงได้ */
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s ease; /* อนิเมชั่นตอนเด้งขึ้นมา */
+}
+
+/* อนิเมชั่นให้ Popup ค่อยๆ ลอยขึ้นมา */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.5);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    background-color: #BF5700;
+}
+
+.modal-content img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+#modalTitle {
+    font-size: 24px;
+    color: #333;
+    margin: 15px 0;
+    line-height: 1.4;
+}
+
+#modalDescription {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.8;
+}
+
+@media screen and (max-width: 768px) {
+    .modal-content img {
+        height: 200px;
+    }
+    .modal-body {
+        padding: 20px;
+    }
+    #modalTitle {
+        font-size: 20px;
+    }
+}
