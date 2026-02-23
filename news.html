@@ -16,23 +16,35 @@
     <div class="wrapper">
         <header class="navbar">
             <div class="logo">
-                <img src="pic/IOTE.png"
-                    alt="IOTE Logo" style="height: 60px; object-fit: contain; width: 120px;">
+                <img src="pic/IOTE.png" alt="IOTE Logo">
             </div>
-
-            <button class="mobile-menu-btn" id="mobileMenuBtn" style="margin-left:auto;">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
             <nav>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">ACADEMICS</a></li>
-                    <li><a href="#">ADMISSION</a></li>
-                    <li><a href="#">FACULTY</a></li>
-                    <li><a href="#">NEWS</a></li>
+                <ul class="nav-links">
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+
+                    <li class="dropdown-menu">
+                        <a href="academic.html" class="dropbtn">ACADEMICS <span class="arrow">▼</span></a>
+                        <ul class="dropdown-content">
+                            <li><a href="iot.html">IOT AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                            <li><a href="dbdegree.html">PHYSICS & AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                            <li><a href="comcon.html">COMPUTER AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#admission">ADMISSION</a></li>
+
+                    <li class="dropdown-menu align-right">
+                        <a href="#faculty" class="dropbtn">FACULTY <span class="arrow">▼</span></a>
+                        <ul class="dropdown-content">
+                            <li><a href="#">PROFESSOR OF IOT AND INFORMATION</a></li>
+                            <li><a href="#">PROFESSOR OF INDUSTRIAL PHYSICS</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#news">NEWS</a></li>
                 </ul>
+                <div class="hamburger">☰</div>
             </nav>
         </header>
 
@@ -223,9 +235,7 @@
                 </div>
 
                 <div class="card filter-item" data-category="research">
-                    <img class="poster-img"
-                        src="pic/cat.jpg"
-                        alt="Research Poster">
+                    <img class="poster-img" src="pic/cat.jpg" alt="Research Poster">
                     <div class="card-body">
                         <span class="news-badge">งานวิจัย</span><br>
                         นำเสนอผลงานวิจัยด้าน AI เพื่อพัฒนาคุณภาพการใช้ชีวิตและการยกระดับมาตรฐานการศึกษา...
@@ -259,8 +269,7 @@
                     </div>
                 </div>
                 <div class="footer-logo">
-                    <img src="pic/IOTE.png"
-                        alt="IOTE Logo" style="height: 60px; margin-right: 15px;">
+                    <img src="pic/IOTE.png" alt="IOTE Logo" style="height: 60px; margin-right: 15px;">
                 </div>
             </div>
 

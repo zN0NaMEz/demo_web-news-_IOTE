@@ -27,28 +27,108 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    border-bottom: 1px solid #ddd;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-top: 20px solid #F37021;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%; /* บังคับให้กว้างเต็มกรอบ */
+    box-sizing: border-box; /* ป้องกันไม่ให้ padding ดันจนล้นจอ */
+}
+.navbar .logo img {
+    height: 50px; /* ปรับขนาดโลโก้ให้พอดี */
+    width: auto;
+    display: block;
+    object-fit: contain; 
 }
 
-.logo img {
-    height: 40px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
+.nav-links { 
+    list-style: none; 
+    display: flex; 
+    gap: 50px; 
+    font-size: 0.8rem; 
+    font-weight: 600; 
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: #000;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 1px;
+    text-decoration: none !important; /* เอาเส้นใต้ขีดๆ ออก */
+    color: #333 !important; /* เปลี่ยนจากสีน้ำเงินเป็นสีเทาเข้มเกือบดำ */
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
 }
+
+.nav-links a:hover { 
+    color: var(--primary-orange) !important; /* เวลาเมาส์ชี้ให้เปลี่ยนเป็นสีส้ม */
+}
+
+.nav-links li:hover { 
+    color: var(--primary-orange); }
+
+
+.hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+.dropdown-menu {
+    position: relative;
+    display: inline-block;
+}
+
+
+.arrow {
+    font-size: 0.7em;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    background-color: var(--primary-orange, #F37021);
+    min-width: 400px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-content li {
+    border-bottom: 2px solid white;
+}
+
+.dropdown-content li:last-child {
+    border-bottom: none;
+}
+
+
+.dropdown-content li a {
+    color: white !important;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content li a:hover {
+    background-color: #d95e16; 
+}
+
+.dropdown-menu:hover .dropdown-content {
+    display: block;
+}
+
+
+.dropdown-menu.align-right .dropdown-content {
+    left: auto;
+    right: 0;
+} 
+
 
 /* --- Shared Typography --- */
 .header-title-container {

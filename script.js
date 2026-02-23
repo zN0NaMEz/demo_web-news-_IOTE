@@ -3,12 +3,12 @@
 // ==========================================
 const track = document.getElementById('newsTrack');
 
-if (track) { 
+if (track) {
     const cards = track.querySelectorAll('.card');
     const totalCards = cards.length;
-    
+
     // ตั้งค่าให้โชว์ทีละ 3 ใบ (มือถือโชว์ทีละ 1 ใบ)
-    let cardsPerView = window.innerWidth <= 768 ? 1 : 3; 
+    let cardsPerView = window.innerWidth <= 768 ? 1 : 3;
     let currentIndex = 0;
 
     // เมื่อมีการย่อ/ขยายหน้าจอ ให้รีเซ็ตกลับไปรูปแรกสุดเพื่อป้องกันการแสดงผลเพี้ยน
@@ -31,7 +31,7 @@ if (track) {
         const card1Position = cards[0].getBoundingClientRect().left;
         const card2Position = cards[1].getBoundingClientRect().left;
         const exactDistance = card2Position - card1Position;
-        
+
         // สั่งเลื่อนตามระยะที่วัดได้เป๊ะๆ
         track.style.transform = `translateX(-${currentIndex * exactDistance}px)`;
     }
@@ -100,25 +100,27 @@ if (searchInput) {
 // ==========================================
 // 3. ระบบ Mobile Navbar (Hamburger Menu)
 // ==========================================
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const navLinks = document.getElementById('navLinks');
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
 
-if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-        // สลับคลาส 'active' เพื่อโชว์/ซ่อน เมนู
-        navLinks.classList.toggle('active');
-        
-        // สลับไอคอนระหว่าง ขีด3ขีด กับ กากบาท
-        const icon = mobileMenuBtn.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-xmark');
+if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+        if (navLinks.style.display === 'flex') {
+            navLinks.style.display = 'none';
         } else {
-            icon.classList.remove('fa-xmark');
-            icon.classList.add('fa-bars');
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '60px';
+            navLinks.style.right = '0';
+            navLinks.style.background = 'white';
+            navLinks.style.width = '100%';
+            navLinks.style.padding = '20px';
+            navLinks.style.boxShadow = '0 5px 5px rgba(0,0,0,0.1)';
         }
     });
-}
+};
+
 
 // ==========================================
 // 4. Scroll Animation (เลื่อนจอแล้วโผล่)
@@ -130,10 +132,10 @@ const animateElements = document.querySelectorAll('.header-title-container, .car
 // วนลูปเพื่อใส่คลาส 'reveal' ให้กับทุกชิ้น
 animateElements.forEach((el, index) => {
     el.classList.add('reveal');
-    
+
     // ทริค: ให้การ์ดที่อยู่ติดกัน ค่อยๆ เด้งเหลื่อมเวลากัน (0.1วิ, 0.2วิ) ทำให้ดูสมูทมาก
     // ยกเว้นส่วน Slider ด้านบน ให้เด้งพร้อมกัน
-    if(!el.closest('.slider-track')) {
+    if (!el.closest('.slider-track')) {
         el.style.transitionDelay = `${(index % 3) * 0.15}s`;
     }
 });
@@ -150,7 +152,7 @@ const observer = new IntersectionObserver((entries, observer) => {
         if (entry.isIntersecting) {
             // ถ้าเลื่อนมาเจอ ให้ใส่คลาส active (โชว์อนิเมชั่น)
             entry.target.classList.add('active');
-            
+
             // สั่งให้เลิกจับตาดู (เพื่อให้มันเด้งแค่ครั้งแรกครั้งเดียว)
             observer.unobserve(entry.target);
         }
