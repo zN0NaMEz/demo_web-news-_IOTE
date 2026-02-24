@@ -511,6 +511,11 @@ body {
     color: #333;
 }
 
+.social-icons a {
+    color: inherit; /* สั่งให้ดึงสีเดิม (สีเทาเข้ม) มาใช้ */
+    text-decoration: none; /* สั่งเอาเส้นใต้ลิงก์ออก */
+}
+
 /* --- Filter Menu --- */
 .filter-menu {
     display: flex;
