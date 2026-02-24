@@ -15,7 +15,8 @@ body {
 }
 
 .wrapper {
-    max-width: 1200px;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     background-color: var(--bg-light);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -28,47 +29,59 @@ body {
     align-items: center;
     padding: 15px 40px;
     background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     border-top: 20px solid #F37021;
     position: sticky;
     top: 0;
     z-index: 100;
-    width: 100%; /* บังคับให้กว้างเต็มกรอบ */
-    box-sizing: border-box; /* ป้องกันไม่ให้ padding ดันจนล้นจอ */
-}
-.navbar .logo img {
-    height: 50px; /* ปรับขนาดโลโก้ให้พอดี */
-    width: auto;
-    display: block;
-    object-fit: contain; 
+    width: 100%;
+    /* บังคับให้กว้างเต็มกรอบ */
+    box-sizing: border-box;
+    /* ป้องกันไม่ให้ padding ดันจนล้นจอ */
 }
 
-.nav-links { 
-    list-style: none; 
-    display: flex; 
-    gap: 50px; 
-    font-size: 0.8rem; 
-    font-weight: 600; 
+.navbar .logo img {
+    height: 50px;
+    /* ปรับขนาดโลโก้ให้พอดี */
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .nav-links a {
-    text-decoration: none !important; /* เอาเส้นใต้ขีดๆ ออก */
-    color: #333 !important; /* เปลี่ยนจากสีน้ำเงินเป็นสีเทาเข้มเกือบดำ */
+    text-decoration: none !important;
+    /* เอาเส้นใต้ขีดๆ ออก */
+    color: #333 !important;
+    /* เปลี่ยนจากสีน้ำเงินเป็นสีเทาเข้มเกือบดำ */
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover { 
-    color: var(--primary-orange) !important; /* เวลาเมาส์ชี้ให้เปลี่ยนเป็นสีส้ม */
+.nav-links a:hover {
+    color: var(--primary-orange) !important;
+    /* เวลาเมาส์ชี้ให้เปลี่ยนเป็นสีส้ม */
 }
 
-.nav-links li:hover { 
-    color: var(--primary-orange); }
+.nav-links li:hover {
+    color: var(--primary-orange);
+}
 
 
-.hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
 
 .dropdown-menu {
     position: relative;
@@ -83,11 +96,11 @@ body {
 }
 
 .dropdown-content {
-    display: none; 
+    display: none;
     position: absolute;
     background-color: var(--primary-orange, #F37021);
     min-width: 400px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     top: 100%;
     left: 0;
@@ -116,7 +129,7 @@ body {
 }
 
 .dropdown-content li a:hover {
-    background-color: #d95e16; 
+    background-color: #d95e16;
 }
 
 .dropdown-menu:hover .dropdown-content {
@@ -127,7 +140,7 @@ body {
 .dropdown-menu.align-right .dropdown-content {
     left: auto;
     right: 0;
-} 
+}
 
 
 /* --- Shared Typography --- */
@@ -189,19 +202,12 @@ body {
 }
 
 .slider-track .card {
-    flex: 0 0 calc(33.3333% - 16px); 
+    flex: 0 0 calc(33.3333% - 16px);
     max-width: calc(33.3333% - 16px);
-    padding: 0; 
+    padding: 0;
     box-sizing: border-box;
 }
 
-/* Responsive สำหรับหน้าจอมือถือ (โชว์ทีละ 1 ใบ) */
-@media screen and (max-width: 768px) {
-    .slider-track .card {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
 
 /* --- Grid & Cards --- */
 .grid-container {
@@ -270,26 +276,6 @@ body {
 /* ย้ายกลุ่มการ์ดข่าวรอง (รูปเล็ก) มาไว้ลำดับที่ 1 ทางสายตา (คือด้านซ้าย) */
 .innovators-section .hero-layout .hero-side-cards {
     order: 1;
-}
-
-
-/* --- Responsive Fix --- */
-/* บนหน้าจอมือถือ เราควรให้ข่าวใหญ่ขึ้นก่อนเหมือนเดิม เพื่อการอ่านที่ง่าย */
-@media screen and (max-width: 768px) {
-    .innovators-section .hero-layout {
-        grid-template-columns: 1fr;
-        /* กลับมาเป็นคอลัมน์เดียว */
-    }
-
-    .innovators-section .hero-layout .hero-main-card {
-        order: 1;
-        /* ข่าวใหญ่กลับมาอยู่อันดับแรกบนมือถือ */
-    }
-
-    .innovators-section .hero-layout .hero-side-cards {
-        order: 2;
-        /* ข่าวเล็กไปอยู่อันดับสองบนมือถือ */
-    }
 }
 
 /* --- Specific Elements --- */
@@ -423,21 +409,7 @@ body {
     font-weight: bold;
 }
 
-/* --- Responsive สำหรับจอมือถือ --- */
-@media screen and (max-width: 768px) {
-    .hero-layout {
-        grid-template-columns: 1fr;
-        /* ย่อจอแล้วให้ต่อกันเป็นแถวเดียว */
-    }
 
-    .hero-main-card img {
-        height: 250px;
-    }
-
-    .hero-side-cards {
-        gap: 20px;
-    }
-}
 
 /* --- NEW: Footer Section --- */
 .footer {
@@ -512,8 +484,10 @@ body {
 }
 
 .social-icons a {
-    color: inherit; /* สั่งให้ดึงสีเดิม (สีเทาเข้ม) มาใช้ */
-    text-decoration: none; /* สั่งเอาเส้นใต้ลิงก์ออก */
+    color: inherit;
+    /* สั่งให้ดึงสีเดิม (สีเทาเข้ม) มาใช้ */
+    text-decoration: none;
+    /* สั่งเอาเส้นใต้ลิงก์ออก */
 }
 
 /* --- Filter Menu --- */
@@ -622,236 +596,25 @@ body {
     cursor: pointer;
 }
 
-/* --- สำหรับ Tablet (หน้าจอขนาดกลาง) --- */
-@media screen and (max-width: 992px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* ปรับกริดเหลือ 2 คอลัมน์ */
-    }
-    .header-title {
-        font-size: 42px; /* ลดขนาดหัวข้อ */
-    }
-}
-
-/* --- สำหรับ Mobile (หน้าจอขนาดเล็ก) --- */
-@media screen and (max-width: 768px) {
-    
-    /* 1. Navbar & Menu */
-    .navbar {
-        padding: 15px 20px;
-        position: relative; /* เพื่อให้เมนู Dropdown อิงตำแหน่งจากตรงนี้ */
-    }
-    
-    .mobile-menu-btn {
-        display: block; /* แสดงปุ่ม Hamburger */
-    }
-
-    .nav-links {
-        display: none; /* ซ่อนเมนูไว้ก่อน */
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 70px; /* ให้หลบใต้ Navbar พอดี */
-        left: 0;
-        background-color: var(--bg-light);
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        padding: 20px 0;
-        z-index: 100; /* ให้อยู่เหนือเนื้อหาอื่นๆ */
-    }
-
-    /* คลาสนี้จะถูกเรียกใช้ผ่าน JS เวลาคลิกปุ่ม */
-    .nav-links.active {
-        display: flex;
-        display: flex !important;
-    }
-
-    .nav-links li {
-        text-align: center;
-        padding: 10px 0;
-    }
-
-    /* 2. Typography */
-    .header-title {
-        font-size: 32px;
-    }
-    .sub-title {
-        font-size: 20px;
-    }
-
-    /* 3. Slider (โชว์ทีละ 1 รูป) */
-    .slider-track .card {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    /* 4. Grid Layouts (เหลือ 1 คอลัมน์) */
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-
-    /* 5. Hero Layouts (Activities) */
-    .hero-layout {
-        grid-template-columns: 1fr;
-    }
-    .hero-main-card img {
-        height: 250px;
-    }
-    .hero-side-cards {
-        gap: 20px;
-    }
-
-    /* 6. Hero Layouts (Awards - สลับกลับให้รูปใหญ่อยู่บน) */
-    .innovators-section .hero-layout {
-        grid-template-columns: 1fr; 
-    }
-    .innovators-section .hero-layout .hero-main-card {
-        order: 1; 
-    }
-    .innovators-section .hero-layout .hero-side-cards {
-        order: 2; 
-    }
-
-    /* 7. Footer */
-    .footer {
-        flex-direction: column; /* เปลี่ยนจากซ้าย-ขวา เป็น บน-ล่าง */
-        padding: 30px 20px;
-        gap: 30px;
-    }
-    .footer-right {
-        padding-left: 0;
-    }
-}
-
-/* =========================================
-   UI Polish (ปรับความสวยงาม & ลวดลาย)
-   ========================================= */
-
-/* ทำให้การ์ดขอบมนดูทันสมัยขึ้น และเงาดูนุ่มนวลขึ้น */
-.card {
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-}
-
-.text-box-card {
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-}
-
-/* ใส่ลายพื้นหลัง (Pattern) ให้ Section ต่างๆ */
-.activity-section {
-    background-color: #fcfcfc;
-    /* ลายจุด (Polka Dots) จางๆ */
-    background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
-    background-size: 20px 20px;
-}
-
-.innovators-section {
-    background-color: #ffffff;
-    /* ลายตาราง (Grid) จางๆ ให้ดูเป็น Tech */
-    background-image: linear-gradient(to right, #f4f4f4 1px, transparent 1px),
-                      linear-gradient(to bottom, #f4f4f4 1px, transparent 1px);
-    background-size: 40px 40px;
-}
-
-/* =========================================
-   Scroll Animations (อนิเมชั่นตอนเลื่อนลงมาเจอ)
-   ========================================= */
-.reveal {
-    opacity: 0; /* ซ่อนไว้ก่อน */
-    transform: translateY(40px); /* ดึงลงไปด้านล่าง 40px */
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* ตั้งค่าความเด้งนุ่มๆ */
-}
-
-.reveal.active {
-    opacity: 1; /* แสดงผล */
-    transform: translateY(0); /* เด้งกลับมาตำแหน่งเดิม */
-}
-
-/* =========================================
-   Fix: ปรับรูปใน HIGHLIGHTS ให้เหมือนช่องอื่น
-   ========================================= */
-
-/* 1. เข้าถึงเฉพาะการ์ดที่อยู่ในรางเลื่อน (newsTrack) */
-#newsTrack .card {
-    /* ให้การ์ดมีความสูงสม่ำเสมอกัน */
-    height: 100%; 
-    /* ตรวจสอบว่ามีขอบมนเหมือนการ์ดอื่น (เผื่อโดนทับ) */
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-/* 2. เข้าถึงเฉพาะ "รูปภาพ" ที่อยู่ในการ์ดเหล่านั้น */
-#newsTrack .card img {
-    /* บังคับความสูงให้เท่ากับการ์ดมาตรฐาน (250px) */
-    height: 250px !important; 
-    
-    /* สำคัญมาก: สั่งให้ตัดส่วนเกินออก (Crop) รูปจะไม่เบี้ยวหรือโดนบีบ */
-    object-fit: cover !important; 
-    
-    width: 100%;
-}
-
-/* =========================================
-   Scroll to Top Button
-   ========================================= */
-.scroll-top-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background-color: #BF5700;
-    color: white;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    opacity: 0; /* ซ่อนไว้ก่อนตอนอยู่บนสุด */
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    z-index: 999; /* ให้อยู่ลอยอยู่บนสุดเสมอ */
-}
-
-.scroll-top-btn.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.scroll-top-btn:hover {
-    background-color: #9c4700;
-    transform: translateY(-5px); /* เวลาชี้ให้ลอยขึ้นนิดนึง */
-}
-
-/* ปรับตำแหน่งบนมือถือไม่ให้ชิดขอบเกินไป */
-@media screen and (max-width: 768px) {
-    .scroll-top-btn {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
-}
-
 /* =========================================
    News Modal (Popup) Styles
    ========================================= */
 .modal-overlay {
-    display: none; /* ซ่อนไว้ก่อนเป็นค่าเริ่มต้น */
+    display: none;
+    /* ซ่อนไว้ก่อนเป็นค่าเริ่มต้น */
     position: fixed;
-    z-index: 2000; /* ให้อยู่บนสุดทับทุกอย่าง รวมถึง Navbar */
+    z-index: 2000;
+    /* ให้อยู่บนสุดทับทุกอย่าง รวมถึง Navbar */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* พื้นหลังสีดำโปร่งใส */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* พื้นหลังสีดำโปร่งใส */
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(5px); /* เบลอพื้นหลังเล็กน้อยให้ดูพรีเมียม */
+    backdrop-filter: blur(5px);
+    /* เบลอพื้นหลังเล็กน้อยให้ดูพรีเมียม */
 }
 
 .modal-content {
@@ -859,17 +622,27 @@ body {
     border-radius: 12px;
     width: 90%;
     max-width: 700px;
-    max-height: 90vh; /* ความสูงไม่เกิน 90% ของหน้าจอ */
-    overflow-y: auto; /* ถ้าเนื้อหายาวให้เลื่อนลงได้ */
+    max-height: 90vh;
+    /* ความสูงไม่เกิน 90% ของหน้าจอ */
+    overflow-y: auto;
+    /* ถ้าเนื้อหายาวให้เลื่อนลงได้ */
     position: relative;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    animation: modalFadeIn 0.3s ease; /* อนิเมชั่นตอนเด้งขึ้นมา */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    animation: modalFadeIn 0.3s ease;
+    /* อนิเมชั่นตอนเด้งขึ้นมา */
 }
 
 /* อนิเมชั่นให้ Popup ค่อยๆ ลอยขึ้นมา */
 @keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-modal {
@@ -880,7 +653,7 @@ body {
     font-size: 35px;
     font-weight: bold;
     cursor: pointer;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     width: 40px;
     height: 40px;
     display: flex;
@@ -920,14 +693,254 @@ body {
     line-height: 1.8;
 }
 
+/* =========================================
+   UI Polish (ปรับความสวยงาม & ลวดลาย)
+   ========================================= */
+
+/* ทำให้การ์ดขอบมนดูทันสมัยขึ้น และเงาดูนุ่มนวลขึ้น */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.text-box-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* ใส่ลายพื้นหลัง (Pattern) ให้ Section ต่างๆ */
+.activity-section {
+    background-color: #fcfcfc;
+    /* ลายจุด (Polka Dots) จางๆ */
+    background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.innovators-section {
+    background-color: #ffffff;
+    /* ลายตาราง (Grid) จางๆ ให้ดูเป็น Tech */
+    background-image: linear-gradient(to right, #f4f4f4 1px, transparent 1px),
+        linear-gradient(to bottom, #f4f4f4 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* =========================================
+   Scroll Animations (อนิเมชั่นตอนเลื่อนลงมาเจอ)
+   ========================================= */
+.reveal {
+    opacity: 0;
+    /* ซ่อนไว้ก่อน */
+    transform: translateY(40px);
+    /* ดึงลงไปด้านล่าง 40px */
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    /* ตั้งค่าความเด้งนุ่มๆ */
+}
+
+.reveal.active {
+    opacity: 1;
+    /* แสดงผล */
+    transform: translateY(0);
+    /* เด้งกลับมาตำแหน่งเดิม */
+}
+
+/* =========================================
+   Fix: ปรับรูปใน HIGHLIGHTS ให้เหมือนช่องอื่น
+   ========================================= */
+
+/* 1. เข้าถึงเฉพาะการ์ดที่อยู่ในรางเลื่อน (newsTrack) */
+#newsTrack .card {
+    /* ให้การ์ดมีความสูงสม่ำเสมอกัน */
+    height: 100%;
+    /* ตรวจสอบว่ามีขอบมนเหมือนการ์ดอื่น (เผื่อโดนทับ) */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* 2. เข้าถึงเฉพาะ "รูปภาพ" ที่อยู่ในการ์ดเหล่านั้น */
+#newsTrack .card img {
+    /* บังคับความสูงให้เท่ากับการ์ดมาตรฐาน (250px) */
+    height: 250px !important;
+
+    /* สำคัญมาก: สั่งให้ตัดส่วนเกินออก (Crop) รูปจะไม่เบี้ยวหรือโดนบีบ */
+    object-fit: cover !important;
+
+    width: 100%;
+}
+
+/* =========================================
+   Scroll to Top Button
+   ========================================= */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #BF5700;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    /* ซ่อนไว้ก่อนตอนอยู่บนสุด */
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 999;
+    /* ให้อยู่ลอยอยู่บนสุดเสมอ */
+}
+
+.scroll-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background-color: #9c4700;
+    transform: translateY(-5px);
+    /* เวลาชี้ให้ลอยขึ้นนิดนึง */
+}
+
+/* --- Responsive สำหรับจอมือถือ --- */
 @media screen and (max-width: 768px) {
+
+    /* Navbar & Hamburger */
+    .hamburger {
+        display: block;
+        color: var(--primary-orange);
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        background-color: var(--bg-light);
+        padding: 20px 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+    }
+
+    .nav-links.active {
+        display: flex !important;
+    }
+
+    .nav-links li {
+        text-align: center;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background: #f5f5f5;
+        min-width: 100%;
+    }
+
+    .dropdown-content li a {
+        color: #333 !important;
+    }
+
+    /* Typography & Spacing */
+    .highlights-section,
+    .research-section,
+    .innovators-section,
+    .activity-section {
+        padding: 40px 5%;
+    }
+
+    .header-title-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header-line {
+        width: 100%;
+        margin: 0 !important;
+    }
+
+    .header-title {
+        font-size: 32px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+        text-align: left !important;
+    }
+
+    /* Layouts */
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-layout,
+    .innovators-section .hero-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .innovators-section .hero-layout .hero-main-card {
+        order: 1;
+    }
+
+    .innovators-section .hero-layout .hero-side-cards {
+        order: 2;
+    }
+
+    .hero-main-card img {
+        height: 250px;
+    }
+
+    /* Slider */
+    .slider-track .card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Modal & Buttons */
     .modal-content img {
         height: 200px;
     }
+
     .modal-body {
         padding: 20px;
     }
-    #modalTitle {
-        font-size: 20px;
+
+    .scroll-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
+/* --- Tablet (หน้าจอขนาดกลาง) --- */
+@media screen and (max-width: 992px) {
+    .nav-links {
+        gap: 20px;
+    }
+
+    .header-title {
+        font-size: 38px;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .footer-right {
+        padding-left: 0;
     }
 }
