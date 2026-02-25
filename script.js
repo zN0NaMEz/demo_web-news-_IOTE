@@ -1,17 +1,14 @@
 // ==========================================
-// 1. ระบบ Slider ข่าว (News Carousel) - แก้ไขบั๊กเลื่อนไม่ตรง
+// 1. ระบบ Slider ข่าว (News Carousel)
 // ==========================================
 const track = document.getElementById('newsTrack');
 
 if (track) {
     const cards = track.querySelectorAll('.card');
     const totalCards = cards.length;
-
-    // ตั้งค่าให้โชว์ทีละ 3 ใบ (มือถือโชว์ทีละ 1 ใบ)
     let cardsPerView = window.innerWidth <= 768 ? 1 : 3;
     let currentIndex = 0;
 
-    // เมื่อมีการย่อ/ขยายหน้าจอ ให้รีเซ็ตกลับไปรูปแรกสุดเพื่อป้องกันการแสดงผลเพี้ยน
     window.addEventListener('resize', () => {
         cardsPerView = window.innerWidth <= 768 ? 1 : 3;
         currentIndex = 0;
@@ -19,246 +16,279 @@ if (track) {
     });
 
     function slideNews() {
+        if (!cards[0] || !cards[1]) return;
         currentIndex++;
-
-        // ถ้าเลื่อนไปจนสุด (ข่าวหมด) ให้วนกลับมาที่รูปแรก
         if (currentIndex > totalCards - cardsPerView) {
             currentIndex = 0;
         }
-
-        // วิธีที่แม่นยำ 100%: วัดระยะห่างจริงระหว่างใบที่ 1 และใบที่ 2 
-        // (รวมความกว้างการ์ด + Gap + เศษทศนิยมไว้ครบถ้วน)
         const card1Position = cards[0].getBoundingClientRect().left;
         const card2Position = cards[1].getBoundingClientRect().left;
         const exactDistance = card2Position - card1Position;
-
-        // สั่งเลื่อนตามระยะที่วัดได้เป๊ะๆ
         track.style.transform = `translateX(-${currentIndex * exactDistance}px)`;
     }
-
-    // เลื่อนอัตโนมัติทุกๆ 3 วินาที (3000 ms)
     setInterval(slideNews, 3000);
 }
 
 // ==========================================
-// 2. ระบบ Filter ข่าว และ ค้นหา (Search & Tab Menu)
+// 2. ระบบ Filter ข่าว และ ค้นหา
 // ==========================================
 const filterButtons = document.querySelectorAll('.filter-btn');
 const filterItems = document.querySelectorAll('.filter-item');
 const searchInput = document.getElementById('newsSearchInput');
 
-// ฟังก์ชันหลักสำหรับกรองข่าว (เช็กทั้งปุ่มที่กด และ คำที่พิมพ์ค้นหา)
 function applyFilters() {
-    // 1. ดูว่าตอนนี้ปุ่มไหนถูกกดอยู่ (All, Award, Activity)
     const activeBtn = document.querySelector('.filter-btn.active');
     const currentCategory = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
-
-    // 2. ดูว่าพิมพ์คำว่าอะไรอยู่ (ทำให้เป็นตัวพิมพ์เล็กทั้งหมดเพื่อเทียบง่ายๆ)
     const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
 
-    // 3. วนลูปเช็กการ์ดทุกใบ
     filterItems.forEach(item => {
         const itemCategory = item.getAttribute('data-category');
-        // ดึงข้อความทั้งหมดในการ์ดใบนั้น (รวมถึงคำใน Badge ด้วย)
         const itemText = item.textContent.toLowerCase();
-
-        // เงื่อนไขที่ 1: ตรงกับปุ่มหมวดหมู่ไหม?
         const matchesCategory = (currentCategory === 'all' || itemCategory === currentCategory);
-        // เงื่อนไขที่ 2: มีคำที่พิมพ์ค้นหาไหม?
         const matchesSearch = itemText.includes(searchQuery);
 
-        // ถ้าผ่านทั้ง 2 เงื่อนไข ให้โชว์การ์ด
         if (matchesCategory && matchesSearch) {
             item.classList.remove('hide');
         } else {
-            item.classList.add('hide'); // ถ้าไม่ตรงให้ซ่อน
+            item.classList.add('hide');
         }
     });
 }
 
-// ผูกระบบเข้ากับปุ่ม Tab Menu
 if (filterButtons.length > 0) {
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // สลับสถานะ Active
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-
-            // เรียกฟังก์ชันกรองข่าว
             applyFilters();
         });
     });
 }
-
-// ผูกระบบเข้ากับช่องค้นหา (ทำงานทันทีที่พิมพ์)
 if (searchInput) {
-    searchInput.addEventListener('input', () => {
-        applyFilters();
-    });
+    searchInput.addEventListener('input', applyFilters);
 }
 
 // ==========================================
 // 3. ระบบ Mobile Navbar (Hamburger Menu)
 // ==========================================
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks = document.getElementById('navLinks');
 
-if (hamburger && navLinks) {
-    hamburger.addEventListener('click', () => {
-        if (navLinks.style.display === 'flex') {
-            navLinks.style.display = 'none';
+if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const icon = mobileMenuBtn.querySelector('i');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
         } else {
-            navLinks.style.display = 'flex';
-            navLinks.style.flexDirection = 'column';
-            navLinks.style.position = 'absolute';
-            navLinks.style.top = '60px';
-            navLinks.style.right = '0';
-            navLinks.style.background = 'white';
-            navLinks.style.width = '100%';
-            navLinks.style.padding = '20px';
-            navLinks.style.boxShadow = '0 5px 5px rgba(0,0,0,0.1)';
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
         }
     });
-};
-
+}
 
 // ==========================================
-// 4. Scroll Animation (เลื่อนจอแล้วโผล่)
+// 4. Scroll Animation
 // ==========================================
-
-// เลือกสิ่งที่เราอยากให้มีอนิเมชั่นเด้งขึ้นมา
 const animateElements = document.querySelectorAll('.header-title-container, .card, .text-box-card, .filter-menu');
 
-// วนลูปเพื่อใส่คลาส 'reveal' ให้กับทุกชิ้น
 animateElements.forEach((el, index) => {
     el.classList.add('reveal');
-
-    // ทริค: ให้การ์ดที่อยู่ติดกัน ค่อยๆ เด้งเหลื่อมเวลากัน (0.1วิ, 0.2วิ) ทำให้ดูสมูทมาก
-    // ยกเว้นส่วน Slider ด้านบน ให้เด้งพร้อมกัน
     if (!el.closest('.slider-track')) {
         el.style.transitionDelay = `${(index % 3) * 0.15}s`;
     }
 });
 
-// ใช้ Intersection Observer เพื่อจับตาดูว่าตอนเลื่อนเมาส์ ของชิ้นนั้นโผล่เข้ามาในจอหรือยัง
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1 // ทำงานเมื่อเห็นของชิ้นนั้นโผล่มา 10%
-};
-
+const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // ถ้าเลื่อนมาเจอ ให้ใส่คลาส active (โชว์อนิเมชั่น)
             entry.target.classList.add('active');
-
-            // สั่งให้เลิกจับตาดู (เพื่อให้มันเด้งแค่ครั้งแรกครั้งเดียว)
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// เริ่มจับตาดูทุกชิ้นที่มีคลาส reveal
 document.querySelectorAll('.reveal').forEach((el) => {
     observer.observe(el);
 });
 
 // ==========================================
-// 5. ระบบ Scroll to Top (ปุ่มเลื่อนกลับบนสุด)
+// 5. ระบบ Scroll to Top
 // ==========================================
 const scrollTopBtn = document.getElementById("scrollTopBtn");
-
 if (scrollTopBtn) {
-    // เช็กระยะการเลื่อนหน้าจอ
     window.addEventListener("scroll", () => {
-        // ถ้าเลื่อนลงมาเกิน 300px ให้โชว์ปุ่ม
         if (window.pageYOffset > 300) {
             scrollTopBtn.classList.add("show");
         } else {
-            // ถ้าอยู่บนสุดให้ซ่อนปุ่ม
             scrollTopBtn.classList.remove("show");
         }
     });
-
-    // เมื่อคลิกปุ่ม ให้เลื่อนกลับไปบนสุดแบบนุ่มนวล
     scrollTopBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth" // เลื่อนแบบสมูท
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
-
 // ==========================================
-// 6. ระบบ Popup อ่านข่าวเต็ม (News Modal)
+// 6. ระบบ Popup อ่านข่าวเต็ม & ฟอร์มรับสมัคร (Force Update)
 // ==========================================
 const modal = document.getElementById('newsModal');
 const closeBtn = document.getElementById('closeModalBtn');
-const modalImage = document.getElementById('modalImage');
-const modalTitle = document.getElementById('modalTitle');
-const modalBadge = document.getElementById('modalBadge');
-const modalDesc = document.getElementById('modalDescription');
+const regSection = document.getElementById('registrationSection');
+const modalSlots = document.getElementById('modalSlots');
+const recruitForm = document.getElementById('recruitForm');
 
-// ดึงการ์ดข่าวทั้งหมดมาทำงาน
-const newsCards = document.querySelectorAll('.card');
+let currentEventId = "";
 
-newsCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-        // ป้องกันไม่ให้ลิงก์ที่อยู่ในการ์ดเปลี่ยนหน้าเว็บ
-        e.preventDefault();
+// ใช้ document.body กางตาข่ายดักจับการคลิกทั้งหน้าเว็บ
+document.body.addEventListener('click', async (e) => {
+    // เช็กว่าสิ่งที่คลิก เป็นส่วนหนึ่งของการ์ดข่าวไหม?
+    const card = e.target.closest('.card');
+    
+    if (card) {
+        e.preventDefault(); // หยุดการลิ้งก์ปกติ
+        
+        // ทดสอบเด้ง Alert เมื่อกดการ์ด (ถ้ากดแล้วข้อความนี้ขึ้น แปลว่าระบบคลิกทำงาน!)
+        console.log("พบการคลิกที่การ์ด!"); 
 
-        // 1. ดึงรูปภาพจากการ์ด
+        // 1. จัดการรูปภาพ
         const img = card.querySelector('img');
-        modalImage.src = img ? img.src : 'pic/IOTE.png'; // ถ้ารูปไม่มีให้ใช้โลโก้แทน
+        if(document.getElementById('modalImage')) {
+            document.getElementById('modalImage').src = img ? img.src : 'pic/IOTE.png'; 
+        }
 
-        // 2. ดึงป้าย Badge
+        // 2. จัดการ Badge
         const badge = card.querySelector('.news-badge');
-        if (badge) {
+        const modalBadge = document.getElementById('modalBadge');
+        
+        if (badge && modalBadge) {
+            // ใช้คำสั่ง getComputedStyle เพื่อดึง "สีที่แสดงผลจริงๆ" บนหน้าจอมาใช้
+            const badgeStyle = window.getComputedStyle(badge);
+            
             modalBadge.innerText = badge.innerText;
-            modalBadge.style.backgroundColor = badge.style.backgroundColor || '#BF5700';
+            modalBadge.style.backgroundColor = badgeStyle.backgroundColor; // ก๊อปปี้สีพื้นหลัง
+            modalBadge.style.color = badgeStyle.color;                     // ก๊อปปี้สีตัวหนังสือ
+            modalBadge.style.padding = badgeStyle.padding;                 // ก๊อปปี้ระยะห่าง
+            modalBadge.style.borderRadius = badgeStyle.borderRadius;       // ก๊อปปี้ความโค้งมน
+            
             modalBadge.style.display = 'inline-block';
-        } else {
+        } else if (modalBadge) {
             modalBadge.style.display = 'none';
         }
 
-        // 3. ดึงหัวข้อและเนื้อหา
-        // เนื่องจากโครงสร้างการ์ดของเรามีหลายแบบ เราจะเช็กทีละแบบ
-        if (card.classList.contains('hero-main-card')) {
-            modalTitle.innerText = card.querySelector('.hero-title').innerText;
-            modalDesc.innerHTML = card.querySelector('.hero-desc').innerHTML + "<br><br><b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็ม คุณสามารถเชื่อมต่อฐานข้อมูลเพื่อดึงเนื้อหาข่าวจริงๆ มาแสดงตรงนี้ได้ในอนาคต";
-        } else if (card.querySelector('.side-title')) {
-            modalTitle.innerText = card.querySelector('.side-title').innerText;
-            modalDesc.innerHTML = "คลิกเพื่อดูรายละเอียดฉบับเต็ม... <br><br><b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็ม...";
-        } else {
-            // สำหรับการ์ดทั่วไป (ดึงข้อความจาก card-body แล้วตัด Badge ออก)
-            let cloneBody = card.querySelector('.card-body').cloneNode(true);
-            let badgeInClone = cloneBody.querySelector('.news-badge');
-            if (badgeInClone) cloneBody.removeChild(badgeInClone);
-
-            modalTitle.innerText = cloneBody.innerText.trim();
-            modalDesc.innerHTML = "<b>รายละเอียดเพิ่มเติม:</b><br>นี่คือพื้นที่จำลองสำหรับใส่เนื้อหาข่าวฉบับเต็มของ " + modalTitle.innerText;
+        // 3. จัดการหัวข้อ
+        const titleEl = card.querySelector('.hero-title, .side-title') || card.querySelector('.card-body');
+        let titleText = titleEl ? titleEl.innerText : "ไม่มีหัวข้อข่าว";
+        if(badge) titleText = titleText.replace(badge.innerText, '');
+        if(document.getElementById('modalTitle')) {
+            document.getElementById('modalTitle').innerText = titleText.trim();
         }
 
-        // 4. แสดง Popup
-        modal.style.display = 'flex';
-        // หยุดการเลื่อนของหน้าเว็บหลัก
-        document.body.style.overflow = 'hidden';
-    });
+        // 4. จัดการคำอธิบาย
+        const descEl = card.querySelector('.hero-desc');
+        if(document.getElementById('modalDescription')) {
+            document.getElementById('modalDescription').innerHTML = descEl ? descEl.innerHTML : "อ่านรายละเอียดเพิ่มเติมของเนื้อหาข่าวนี้...";
+        }
+
+        // 5. เช็กระบบรับสมัคร
+        const isRecruit = card.getAttribute('data-type') === 'recruit';
+        currentEventId = card.getAttribute('data-event-id');
+
+        if (isRecruit && currentEventId && regSection && modalSlots && recruitForm) {
+            regSection.style.display = 'block';
+            modalSlots.innerText = "กำลังเช็กจำนวนที่นั่ง...";
+            modalSlots.style.display = 'inline-block';
+            modalSlots.style.backgroundColor = "#ffc107"; 
+
+            const submitBtn = recruitForm.querySelector('button');
+            if(submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "กำลังโหลด...";
+            }
+
+            try {
+                // พยายามดึงข้อมูลจากหลังบ้าน
+                const response = await fetch(`http://localhost:3000/api/slots/${currentEventId}`);
+                const data = await response.json();
+                
+                if (data.slots > 0) {
+                    modalSlots.innerText = `🔥 รับด่วน! ขาดอีก ${data.slots} คน`;
+                    modalSlots.style.backgroundColor = "#dc3545"; 
+                    if(submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = "ยืนยันการสมัคร";
+                    }
+                } else {
+                    modalSlots.innerText = `❌ เต็มแล้ว!`;
+                    modalSlots.style.backgroundColor = "#6c757d"; 
+                    if(submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerText = "ปิดรับสมัครแล้ว";
+                    }
+                }
+            } catch (err) {
+                console.error("เชื่อมต่อ Backend ไม่สำเร็จ", err);
+                modalSlots.innerText = "ยังไม่ได้เปิด Backend หรือเซิร์ฟเวอร์ขัดข้อง";
+                modalSlots.style.backgroundColor = "#6c757d";
+                if(submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = "ระบบขัดข้องชั่วคราว";
+                }
+            }
+        } else {
+            if(regSection) regSection.style.display = 'none';
+            if(modalSlots) modalSlots.style.display = 'none';
+        }
+
+        // แสดง Popup
+        if(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+    }
 });
 
-// ฟังก์ชันปิด Popup เมื่อกดกากบาท
-if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // คืนค่าให้หน้าเว็บเลื่อนได้ปกติ
-    });
-}
-
-// ฟังก์ชันปิด Popup เมื่อคลิกพื้นที่สีดำรอบๆ
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
+// ฟังก์ชันปิด Popup
+const closeModal = () => {
+    if(modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-});
+};
+if(closeBtn) closeBtn.addEventListener('click', closeModal);
+window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+// ฟังก์ชันส่งข้อมูลสมัคร
+if (recruitForm) {
+    recruitForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); 
+        
+        const inputs = recruitForm.querySelectorAll('input');
+        const formData = {
+            eventId: currentEventId,
+            name: inputs[0].value,
+            studentId: inputs[1].value,
+            phone: inputs[2].value
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                alert(`🎉 ${result.message}\nตอนนี้เหลือที่นั่งอีก ${result.remain} คน`);
+                recruitForm.reset();
+                closeModal();
+            } else {
+                alert(`❌ ${result.message}`);
+            }
+        } catch (err) {
+            alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบว่าเปิด Backend (node server.js) แล้วหรือยัง");
+        }
+    });
+}

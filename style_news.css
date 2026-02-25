@@ -806,6 +806,75 @@ body {
     /* เวลาชี้ให้ลอยขึ้นนิดนึง */
 }
 
+/* =========================================
+   Registration Form (แบบฟอร์มรับสมัครใน Popup)
+   ========================================= */
+.slots-badge {
+    background-color: #dc3545; /* สีแดงแจ้งเตือน */
+    color: white;
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 10px;
+    animation: pulse 1.5s infinite; /* ทำให้ป้ายกระพริบเบาๆ ดึงดูดสายตา */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.registration-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px dashed #eee; /* เส้นคั่นระหว่างเนื้อหาข่าวกับฟอร์ม */
+}
+
+.registration-section h3 {
+    color: #BF5700;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+#recruitForm input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+#recruitForm input:focus {
+    outline: none;
+    border-color: #BF5700;
+    box-shadow: 0 0 5px rgba(191, 87, 0, 0.2);
+}
+
+.submit-btn {
+    background-color: #28a745; /* สีเขียวปุ่มตกลง */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
 /* --- Responsive สำหรับจอมือถือ --- */
 @media screen and (max-width: 768px) {
 

@@ -18,8 +18,9 @@
             <div class="logo">
                 <img src="pic/IOTE.png" alt="IOTE Logo">
             </div>
+
             <nav>
-                <ul class="nav-links">
+                <ul class="nav-links" id="navLinks">
                     <li><a href="#home">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
 
@@ -44,8 +45,11 @@
 
                     <li><a href="#news">NEWS</a></li>
                 </ul>
-                <div class="hamburger">☰</div>
             </nav>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </header>
 
         <section class="highlights-section">
@@ -84,7 +88,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" data-type="recruit" data-event-id="camp-01">
                         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                             alt="News 4">
                         <div class="card-body">
@@ -336,8 +340,21 @@
             <img id="modalImage" src="" alt="News Image">
             <div class="modal-body">
                 <span id="modalBadge" class="news-badge"></span>
+                <span id="modalSlots" class="slots-badge" style="display:none;"></span>
+                
                 <h2 id="modalTitle">หัวข้อข่าว</h2>
                 <p id="modalDescription">เนื้อหาข่าวฉบับเต็ม...</p>
+
+                <div id="registrationSection" class="registration-section" style="display: none;">
+                    <h3>📝 ลงทะเบียนสมัคร (Staff)</h3>
+                    <form id="recruitForm">
+                        <input type="text" placeholder="ชื่อ - นามสกุล" required>
+                        <input type="text" placeholder="รหัสนักศึกษา" required>
+                        <input type="tel" placeholder="เบอร์โทรศัพท์ติดต่อ" required>
+                        <button type="submit" class="submit-btn">ยืนยันการสมัคร</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
