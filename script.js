@@ -292,3 +292,31 @@ if (recruitForm) {
         }
     });
 }
+
+// ฟังก์ชันสำหรับโหลดจำนวนที่นั่งมาแสดงที่หน้าการ์ดข่าว
+async function updateAllSlotsIndicators() {
+    // หาการ์ดทุกใบที่มีป้ายบอกจำนวนคน
+    const indicators = document.querySelectorAll('.slots-indicator');
+
+    for (const span of indicators) {
+        const eventId = span.getAttribute('data-event-id');
+        
+        try {
+            // เรียก API ไปที่ Node.js ที่รันอยู่ที่พอร์ต 3000
+            const response = await fetch(`http://localhost:3000/api/slots/${eventId}`);
+            const data = await response.json();
+
+            if (data.slots > 0) {
+                span.innerText = `🔥 รับด่วน! ขาดอีก ${data.slots} คน`;
+            } else {
+                span.innerText = `❌ เต็มแล้ว`;
+                span.style.backgroundColor = "#6c757d"; // เปลี่ยนเป็นสีเทาถ้าเต็ม
+            }
+        } catch (err) {
+            console.log("ไม่สามารถดึงที่นั่งสำหรับงาน:", eventId);
+        }
+    }
+}
+
+// สั่งให้ทำงานทันทีที่โหลดหน้าเว็บเสร็จ
+document.addEventListener('DOMContentLoaded', updateAllSlotsIndicators);
