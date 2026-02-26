@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style_news.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -349,13 +350,12 @@
                 <p id="modalDescription">เนื้อหาข่าวฉบับเต็ม...</p>
 
                 <div id="registrationSection" class="registration-section" style="display: none;">
-                    <h3>📝 ลงทะเบียนสมัคร (Staff)</h3>
-                    <form id="recruitForm">
-                        <input type="text" placeholder="ชื่อ - นามสกุล" required>
-                        <input type="text" placeholder="รหัสนักศึกษา" required>
-                        <input type="tel" placeholder="เบอร์โทรศัพท์ติดต่อ" required>
-                        <button type="submit" class="submit-btn">ยืนยันการสมัคร</button>
-                    </form>
+                    <h3>📝 ลงทะเบียนสมัคร (เฉพาะนักศึกษา)</h3>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">ระบบจะยืนยันตัวตนด้วยอีเมล @kmitl.ac.th เท่านั้น</p>
+                    
+                    <div id="googleSignInContainer" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
+                    
+                    <p id="regStatusMsg" style="text-align: center; font-size: 14px; font-weight: bold; margin-top: 10px;"></p>
                 </div>
 
             </div>
