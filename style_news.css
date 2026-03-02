@@ -10,7 +10,6 @@
 /* --- General Setup --- */
 body {
     margin: 0;
-    background-color: var(--text-dark);
     font-family: 'Prompt', sans-serif;
 }
 
