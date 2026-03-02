@@ -536,5 +536,57 @@ document.body.addEventListener('click', async (e) => {
         }
     }
 });
+
+// ==========================================
+// ระบบ Auto-Slide เลื่อนข่าวอัตโนมัติ (เฉพาะจอมือถือ)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const sliderContainer = document.querySelector('.slider-container');
+    if (!sliderContainer) return;
+
+    let autoSlideTimer;
+
+    // ฟังก์ชันสั่งเลื่อน
+    const autoSlide = () => {
+        // เช็กว่าตอนนี้เป็นหน้าจอมือถือหรือไม่ (กว้างไม่เกิน 768px)
+        if (window.innerWidth <= 768) {
+            const card = sliderContainer.querySelector('.card');
+            if (!card) return;
+
+            // คำนวณระยะที่ต้องเลื่อน (ความกว้างการ์ด + ช่องว่าง 15px)
+            const scrollAmount = card.offsetWidth + 15;
+
+            // เช็กว่าเลื่อนไปจนสุดขอบขวาหรือยัง? (เผื่อค่าคลาดเคลื่อนนิดหน่อยเลย -5px)
+            if (sliderContainer.scrollLeft + sliderContainer.clientWidth >= sliderContainer.scrollWidth - 5) {
+                // ถ้าสุดแล้ว ให้เด้งกลับไปใบแรกสุดแบบนุ่มนวล
+                sliderContainer.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                // ถ้ายังไม่สุด ให้เลื่อนขยับไปทีละ 1 ใบ
+                sliderContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+    };
+
+    // เริ่มตั้งเวลาเลื่อนทุกๆ 3 วินาที (3000 มิลลิวินาที)
+    const startAutoSlide = () => {
+        // เคลียร์ของเก่าก่อนเผื่อบั๊กซ้อนกัน
+        clearInterval(autoSlideTimer); 
+        autoSlideTimer = setInterval(autoSlide, 3000);
+    };
+
+    // เรียกใช้งานทันที
+    startAutoSlide();
+
+    // 💡 UX/UI ทริค: ถ้าผู้ใช้เอานิ้วแตะเพื่อจะปัดเอง ให้หยุดระบบ Auto ชั่วคราว
+    sliderContainer.addEventListener('touchstart', () => {
+        clearInterval(autoSlideTimer);
+    });
+
+    // พอเอานิ้วออก ให้กลับมาเลื่อนอัตโนมัติตามเดิม
+    sliderContainer.addEventListener('touchend', () => {
+        startAutoSlide();
+    });
+});
+
 // สั่งให้ทำงานทันทีที่โหลดหน้าเว็บเสร็จ
 document.addEventListener('DOMContentLoaded', updateAllSlotsIndicators);

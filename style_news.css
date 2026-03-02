@@ -336,7 +336,8 @@ body {
     margin: 15px 0 10px 0;
     font-size: 24px;
     color: #000;
-    height: auto; /* ยกเว้นข่าวหลักให้ยาวได้ */
+    height: auto;
+    /* ยกเว้นข่าวหลักให้ยาวได้ */
     -webkit-line-clamp: unset;
     line-clamp: unset;
 }
@@ -396,22 +397,44 @@ body {
     border-radius: 4px;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #fff; /* ตัวหนังสือสีขาวเสมอ */
+    color: #fff;
+    /* ตัวหนังสือสีขาวเสมอ */
 }
 
 /* 2. แยกสีตามหมวดหมู่ (เอาชื่อคลาสพวกนี้ไปใส่ใน HTML) */
-.badge-orange { background-color: #BF5700; } /* ข่าวทั่วไป สีส้มสถาบัน */
-.badge-blue   { background-color: #0056b3; } /* ข่าวนวัตกรรม สีน้ำเงิน */
-.badge-red    { background-color: #dc3545; } /* ข่าวรับสมัคร/ด่วน สีแดง */
-.badge-green  { background-color: #28a745; } /* ข่าวกิจกรรม/ผลงาน สีเขียว */
-.badge-gray   { background-color: #6c757d; } /* ข่าวประกาศ สีเทา */
+.badge-orange {
+    background-color: #BF5700;
+}
+
+/* ข่าวทั่วไป สีส้มสถาบัน */
+.badge-blue {
+    background-color: #0056b3;
+}
+
+/* ข่าวนวัตกรรม สีน้ำเงิน */
+.badge-red {
+    background-color: #dc3545;
+}
+
+/* ข่าวรับสมัคร/ด่วน สีแดง */
+.badge-green {
+    background-color: #28a745;
+}
+
+/* ข่าวกิจกรรม/ผลงาน สีเขียว */
+.badge-gray {
+    background-color: #6c757d;
+}
+
+/* ข่าวประกาศ สีเทา */
 
 /* --- Footer Section --- */
 .footer {
     display: flex;
     justify-content: space-between;
     background-color: #fafafa;
-    padding: 40px;
+    padding: 60px 40px;
+    /* เพิ่มพื้นที่ว่างให้ดูโปร่งขึ้น */
     border-top: 2px solid #eee;
     margin-top: 20px;
 }
@@ -423,24 +446,29 @@ body {
 .footer-heading {
     color: #d94a26;
     margin: 0 0 15px 0;
-    font-size: 14px;
+    font-size: 18px;
+    /* ใหญ่ขึ้นจาก 14px */
+    font-weight: bold;
 }
 
 .contact-info {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
 .social-icons {
     display: flex;
-    gap: 8px;
-    font-size: 28px;
+    gap: 15px;
+    /* ถ่างระยะห่างไอคอน */
+    font-size: 36px;
+    /* ใหญ่ขึ้นจาก 28px */
     color: #444;
 }
 
-.social-icons i, .social-icons a {
+.social-icons i,
+.social-icons a {
     cursor: pointer;
     transition: 0.3s;
     color: inherit;
@@ -452,8 +480,9 @@ body {
 }
 
 .phone-numbers {
-    font-size: 10px;
-    line-height: 1.4;
+    font-size: 16px;
+    /* ใหญ่ขึ้นจาก 10px (สำคัญมาก) */
+    line-height: 1.6;
     font-weight: bold;
 }
 
@@ -468,14 +497,16 @@ body {
 }
 
 .footer-right h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
+    margin: 0 0 15px 0;
+    font-size: 22px;
+    /* ใหญ่ขึ้นจาก 16px */
     color: #000;
 }
 
 .footer-right p {
     margin: 0;
-    font-size: 12px;
+    font-size: 16px;
+    /* ใหญ่ขึ้นจาก 12px */
     line-height: 1.8;
     color: #333;
 }
@@ -583,8 +614,15 @@ body {
 }
 
 @keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .close-modal {
@@ -721,9 +759,17 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .registration-section {
@@ -777,19 +823,25 @@ body {
 
 /* =========================================
    Responsive Design (Media Queries)
-   รองรับ 6 ขนาดหน้าจอมาตรฐาน (คลีนแล้ว!)
+   รองรับ 6 ขนาดหน้าจอมาตรฐาน (อัปเดต Footer ใหญ่ขึ้น)
    ========================================= */
 
 /* 1. จอใหญ่ - MacBook Air/Pro 13" (1440 x 900) */
 @media screen and (max-width: 1440px) {
-    .highlights-section, 
-    .research-section, 
-    .innovators-section, 
+
+    .highlights-section,
+    .research-section,
+    .innovators-section,
     .activity-section {
         padding: 40px 30px;
     }
+
     .header-title {
         font-size: 48px;
+    }
+
+    .footer {
+        padding: 50px 30px;
     }
 }
 
@@ -798,32 +850,64 @@ body {
     .nav-links {
         gap: 25px;
     }
+
     .hero-main-card img {
         height: 320px;
     }
+
     .card img {
         height: 200px;
+    }
+
+    /* ปรับขนาด Footer ลงนิดหน่อยไม่ให้แน่นจอ 14 นิ้ว */
+    .footer-heading {
+        font-size: 16px;
+    }
+
+    .footer-right h3 {
+        font-size: 20px;
+    }
+
+    .footer-right p,
+    .phone-numbers {
+        font-size: 14px;
+    }
+
+    .social-icons {
+        font-size: 30px;
     }
 }
 
 /* 3. iPad แนวนอน (1024 x 768) */
 @media screen and (max-width: 1024px) {
     .nav-links {
-        gap: 15px; 
+        gap: 15px;
         font-size: 0.75rem;
     }
+
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .header-title {
         font-size: 40px;
     }
+
+    /* Footer เริ่มหดเป็นแนวตั้งซ้อนกัน */
     .footer {
         flex-direction: column;
-        gap: 30px;
+        gap: 40px;
+        padding: 40px 30px;
     }
+
     .footer-right {
         padding-left: 0;
+    }
+
+    /* ปรับ Slider ให้แสดง 2 การ์ดบน iPad */
+    .slider-track .card {
+        flex: 0 0 calc(50% - 10px);
+        max-width: calc(50% - 10px);
     }
 }
 
@@ -832,10 +916,12 @@ body {
     .navbar {
         padding: 15px 20px;
     }
+
     .hamburger {
-        display: block; 
+        display: block;
         color: var(--primary-orange);
     }
+
     .nav-links {
         display: none;
         flex-direction: column;
@@ -848,57 +934,168 @@ body {
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         gap: 15px;
     }
+
     .nav-links.active {
         display: flex !important;
     }
+
     .grid-container {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
-    .hero-layout, 
+
+    .hero-layout,
     .innovators-section .hero-layout {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
-    .innovators-section .hero-layout .hero-main-card { order: 1; }
-    .innovators-section .hero-layout .hero-side-cards { order: 2; }
-    
-    .hero-main-card img { height: 280px; }
-    
+
+    .innovators-section .hero-layout .hero-main-card {
+        order: 1;
+    }
+
+    .innovators-section .hero-layout .hero-side-cards {
+        order: 2;
+    }
+
+    .hero-main-card img {
+        height: 280px;
+    }
+
     .header-title-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
+
     .header-line {
         width: 100%;
         margin: 0 !important;
+    }
+
+    /* จัด Footer ให้อยู่กึ่งกลางเพื่อความสวยงามบนจอแนวตั้ง */
+    .footer {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .contact-info,
+    .footer-logo {
+        justify-content: center;
+    }
+
+    /* =========================================
+       ระบบ Slider ปัดด้วยนิ้วสำหรับมือถือ (แก้บั๊กเลื่อนไม่ได้ 100%)
+       ========================================= */
+    .slider-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 20px;
+        width: 100% !important;
+    }
+
+    /* ซ่อน Scrollbar แนวนอน */
+    .slider-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .slider-track {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        
+        /* 🔥 แก้ไข 1: เปลี่ยนจาก auto เป็น max-content เพื่อบังคับให้รางยาวทะลุขอบจอ */
+        width: max-content !important; 
+        
+        transform: none !important;
+        transition: none !important;
+        gap: 15px !important;
+        padding: 0 5px;
+    }
+
+    .slider-track .card {
+        flex: 0 0 85vw !important;
+        max-width: 85vw !important;
+        
+        /* 🔥 แก้ไข 2: สั่งห้ามการ์ดหดตัวเด็ดขาด (ป้องกันการโดนบีบจนเลื่อนไม่ได้) */
+        flex-shrink: 0 !important; 
+        
+        scroll-snap-align: center;
+    }
+
+    .slider-prev,
+    .slider-next {
+        display: none !important;
     }
 }
 
 /* 5. มือถือ (375 x 812) */
 @media screen and (max-width: 375px) {
-    .highlights-section, 
-    .research-section, 
-    .innovators-section, 
+
+    .highlights-section,
+    .research-section,
+    .innovators-section,
     .activity-section {
         padding: 30px 15px;
     }
-    .header-title { font-size: 28px; }
-    .sub-title { font-size: 18px; }
-    .card img { height: 180px; }
-    .hero-main-card img { height: 200px; }
-    
+
+    .header-title {
+        font-size: 28px;
+    }
+
+    .sub-title {
+        font-size: 18px;
+    }
+
+    .card img {
+        height: 180px;
+    }
+
+    .hero-main-card img {
+        height: 200px;
+    }
+
     .modal-content {
         width: 95%;
         margin: 10px;
     }
-    .modal-body { padding: 15px; }
-    #modalTitle { font-size: 20px; }
-    
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    #modalTitle {
+        font-size: 20px;
+    }
+
     .scroll-top-btn {
         bottom: 15px;
         right: 15px;
         width: 40px;
         height: 40px;
         font-size: 16px;
+    }
+
+    /* บีบขนาด Footer สำหรับจอมือถือเล็กๆ โดยยังคงอ่านง่าย */
+    .footer {
+        padding: 30px 15px;
+        gap: 30px;
+    }
+
+    .footer-heading {
+        font-size: 15px;
+    }
+
+    .footer-right h3 {
+        font-size: 18px;
+    }
+
+    .footer-right p,
+    .phone-numbers {
+        font-size: 13px;
+    }
+
+    .social-icons {
+        font-size: 26px;
+        gap: 10px;
     }
 }
