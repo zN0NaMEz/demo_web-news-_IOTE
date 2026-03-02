@@ -21,87 +21,87 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Navbar --- */
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
     background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    border-top: 20px solid #F37021;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-top: 20px solid #F37021; /* แถบส้มด้านบนสุด */
     position: sticky;
     top: 0;
     z-index: 100;
-    width: 100%;
-    box-sizing: border-box;
 }
-
 .navbar .logo img {
-    height: 50px;
-    width: auto;
-    display: block;
-    object-fit: contain;
+    width: 200px;       /* ปรับตัวเลขนี้เพื่อลด/เพิ่มขนาด (แนะนำ 150px - 200px) */
+    height: auto;       /* ให้ความสูงปรับตามอัตโนมัติ สัดส่วนจะไม่เพี้ยน */
+    display: block;     /* จัดระเบียบการวาง */
+    object-fit: contain; /* มั่นใจว่าภาพจะไม่โดนตัด */
 }
+.nav-links { list-style: none; display: flex; gap: 50px; font-size: 0.8rem; font-weight: 600; }
 
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 50px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
+/* จัดการตัวอักษรลิงก์ในเมนู Nav */
 .nav-links a {
-    text-decoration: none !important;
-    color: #333 !important;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    transition: color 0.3s ease;
+    text-decoration: none !important; /* สั่งเอาเส้นใต้ขีดๆ ออก */
+    color: var(--text-dark) !important; /* สั่งเปลี่ยนสีเป็นสีเทาเข้ม/ดำ */
+    transition: color 0.3s ease; /* ทำให้เวลาเอาเมาส์ชี้ สีจะค่อยๆ เปลี่ยนแบบนุ่มนวล */
 }
 
+/* เวลาเอาเมาส์ชี้ที่ลิงก์ ให้เปลี่ยนเป็นสีส้ม */
 .nav-links a:hover {
     color: var(--primary-orange) !important;
 }
 
-.nav-links li:hover {
-    color: var(--primary-orange);
-}
+.nav-links li:hover { 
+    color: var(--primary-orange); }
+     
 
-.hamburger {
-    display: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-}
+.hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+/*Dropdown Menu Styles */
 
 .dropdown-menu {
     position: relative;
-    display: inline-block;
+    display: flex; 
+    align-items: center;
+    height: 100%;
 }
 
 .arrow {
     font-size: 0.7em;
     margin-left: 5px;
     vertical-align: middle;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-menu:hover .arrow {
+    transform: rotate(180deg);
 }
 
 .dropdown-content {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     position: absolute;
     background-color: var(--primary-orange, #F37021);
-    min-width: 400px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    min-width: 250px;
+    max-width: 350px; 
+    box-shadow: 0px 10px 20px rgba(0,0,0,0.15); 
     z-index: 1000;
-    top: 100%;
+    top: 100%; 
     left: 0;
     list-style: none;
     padding: 0;
     margin: 0;
+    border-radius: 5px; 
+    overflow: hidden; 
+    transition: all 0.3s ease; 
 }
 
 .dropdown-content li {
-    border-bottom: 2px solid white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .dropdown-content li:last-child {
@@ -115,18 +115,29 @@ body {
     display: block;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: background-color 0.3s;
+    line-height: 1.4; 
+    transition: background-color 0.3s, padding-left 0.3s; 
 }
 
 .dropdown-content li a:hover {
-    background-color: #d95e16;
+    background-color: #d95e16; 
+    padding-left: 25px; 
 }
 
+
 .dropdown-menu:hover .dropdown-content {
-    display: block;
+    visibility: visible;
+    opacity: 1;
+    top: 100%;
+}
+
+
+.dropdown-menu:hover .arrow {
+    transform: rotate(180deg);
 }
 
 .dropdown-menu.align-right .dropdown-content {
+    align-items: center;
     left: auto;
     right: 0;
 }
@@ -1017,7 +1028,6 @@ body {
         
         /* 🔥 แก้ไข 2: สั่งห้ามการ์ดหดตัวเด็ดขาด (ป้องกันการโดนบีบจนเลื่อนไม่ได้) */
         flex-shrink: 0 !important; 
-        
         scroll-snap-align: center;
     }
 
