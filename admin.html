@@ -1,123 +1,436 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
-    <title>ระบบจัดการหลังบ้าน - IOTE News</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Prompt', sans-serif; background-color: #f4f7f6; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        h2 { color: #BF5700; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #BF5700; color: white; }
-        tr:hover { background-color: #fff5ed; }
-        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Prompt'; font-size: 12px; color: white; }
-        .btn-edit { background-color: #ffc107; color: #000; }
-        .btn-delete { background-color: #dc3545; }
-        .badge { background: #17a2b8; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IOTE News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style_news.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
 
-<div class="container">
-    <h2> ระบบจัดการผู้สมัคร (Admin Dashboard)</h2>
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>กิจกรรม</th>
-                <th>ชื่อ-นามสกุล</th>
-                <th>อีเมล (@kmitl)</th>
-                <th>วันที่สมัคร</th>
-                <th>จัดการ</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <tr><td colspan="6" style="text-align: center;">กำลังโหลดข้อมูล...</td></tr>
-        </tbody>
-    </table>
-</div>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="pic/IOTE.png" alt="IOTE Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="../Tarchai/home.html">HOME</a></li>
+            <li><a href="../Nom/about.html">ABOUT</a></li>
 
-<script>
-    const apiUrl = 'http://localhost:3000/api/admin/registrants';
+            <li class="dropdown-menu">
+                <a href="../mi/academic.html" class="dropbtn">ACADEMICS <span class="arrow">▼</span></a>
+                <ul class="dropdown-content">
+                    <li><a href="../mi/iot.html">IOT AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                    <li><a href="../mi/dbdegree.html">PHYSICS & AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                    <li><a href="../mi/comcon.html">COMPUTER AND INFORMATION SYSTEMS ENGINEERING</a></li>
+                </ul>
+            </li>
 
-    // ฟังก์ชันโหลดข้อมูลมาแสดง
-    async function loadData() {
-        try {
-            const res = await fetch(apiUrl);
-            const data = await res.json();
-            const tbody = document.getElementById('tableBody');
-            
-            if(data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">ยังไม่มีผู้สมัคร</td></tr>';
-                return;
-            }
+            <li><a href="../Daw/admission.html">ADMISSION</a></li>
 
-            tbody.innerHTML = data.map(row => `
-                <tr>
-                    <td>${row.id}</td>
-                    <td><span class="badge">${row.event_id}</span></td>
-                    <td id="name-${row.id}">${row.name}</td>
-                    <td>${row.email}</td>
-                    <td>${new Date(row.created_at).toLocaleString('th-TH')}</td>
-                    <td>
-                        <button class="btn btn-edit" onclick="editData(${row.id})">✏️ แก้ไข</button>
-                        <button class="btn btn-delete" onclick="deleteData(${row.id})">🗑️ ลบ</button>
-                    </td>
-                </tr>
-            `).join('');
-        } catch (err) {
-            alert('ไม่สามารถโหลดข้อมูลได้ ตรวจสอบว่าเปิด Node.js หรือยัง');
-        }
-    }
+            <li class="dropdown-menu align-right">
+                <a href="../Nom/Prof_iot.html" class="dropbtn">FACULTY <span class="arrow">▼</span></a>
+                <ul class="dropdown-content">
+                    <li><a href="../Nom/Prof_iot.html">PROFESSOR OF IOT AND INFORMATION</a></li>
+                    <li><a href="../Nom/Prof_phy.html">PROFESSOR OF INDUSTRIAL PHYSICS</a></li>
+                </ul>
+            </li>
 
-    // ฟังก์ชันแก้ไขชื่อ
-    async function editData(id) {
-        const currentName = document.getElementById(`name-${id}`).innerText;
-        const newName = prompt("แก้ไขชื่อ-นามสกุล:", currentName);
-        
-        if (newName && newName.trim() !== "" && newName !== currentName) {
-            try {
-                const res = await fetch(`${apiUrl}/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: newName, phone: "-" }) 
-                });
-                const result = await res.json();
-                if(result.success) {
-                    loadData(); // รีเฟรชตาราง
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
-                }
-            } catch(err) {
-                alert('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้');
-            }
-        }
-    }
+            <li><a href="news.html">NEWS</a></li>
+        </ul>
+        <div class="hamburger">☰</div>
+    </nav>
 
-    // ฟังก์ชันลบข้อมูล
-    async function deleteData(id) {
-        if (confirm("⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?\n(การลบจะทำให้โควต้าที่นั่งของกิจกรรมนี้เพิ่มขึ้น 1 ที่นั่งอัตโนมัติ)")) {
-            try {
-                const res = await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
-                const result = await res.json();
-                
-                if(result.success) {
-                    alert(result.message);
-                    loadData(); // รีเฟรชตาราง
-                } else {
-                    alert('เกิดข้อผิดพลาด: ' + result.message);
-                }
-            } catch(err) {
-                alert('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้');
-            }
-        }
-    }
+    <div class="wrapper">
+        <section class="highlights-section">
+            <div class="header-title-container">
+                <h1 class="header-title">IOTE NEWS</h1>
+                <div class="header-line" style="margin-left: 20px;"></div>
+            </div>
+            <div class="sub-title">HIGHLIGHTS</div>
 
-    // โหลดข้อมูลทันทีที่เปิดหน้าเว็บ
-    loadData();
-</script>
+            <div class="slider-container">
 
+                <div class="slider-track" id="newsTrack">
+                    <div class="card">
+                        <img src="pic/1.jpg"
+                            alt="News 1">
+                        <div class="card-body">
+                            <span class="news-badge badge-blue">รางวัล</span>
+                            <h4 class="side-title">
+                                นวัตกรรมเพื่อชีวิต! ทีมวิศวกรรมไอโอทีและสารสนเทศ วิศวลาดกระบัง คว้ารางวัล 1st Runner-Up
+                                โดยสร้าง “Smart Glucagon Patch” ตรวจจับน้ำตาลต่ำด้วย AI ไม่ต้องเจาะเลือด🩺⌚</h4>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="pic/2.jpg"
+                            alt="News 2">
+                        <div class="card-body">
+                            <span class="news-badge badge-orange">กิจกรรมนักศึกษา</span>
+                            <h4 class="side-title">นักศึกษาชั้นปีที่ 4 นำเสนอโครงงานนวัตกรรมสุดล้ำประจำเทอม
+                                📣✨ เมื่อวันที่ 9 ก.พ. ที่ผ่านมา นักศึกษาจาก Chuo University จำนวน 17 คน
+                                และนักศึกษาภาควิชาวิศวกรรมไอโอทีและสารสนเทศ คณะวิศวกรรมศาสาตร์ สจล. จำนวน 17 คน
+                                ได้ร่วมกันนำเสนอหัวข้องานวิจัยของตนเอง
+                                รวมทั้งแลกเปลี่ยนมุมมองและแนวคิดทางวิชาการร่วมกันอย่างเข้มข้นและสร้างสรรค์ 🤝📚 </h4>
+                        </div>
+                    </div>
+
+                    <div class="card" data-type="recruit" data-event-id="camp-01">
+                        <img src="pic/3.jpg"
+                            alt="News 3">
+                        <div class="card-body">
+                            <span class="news-badge badge-red">รับสมัครนักศึกษา</span><br>
+                            <span class="slots-indicator" data-event-id="camp-01"></span>
+                            <h4 class="side-title">
+                                รับสมัครสตาฟทุกชั้นปี สำหรับงาน Open House เปิดบ้านวิศวะต้อนรับน้องๆ มัธยม </h4>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="pic/4.jpg"
+                            alt="News 4">
+                        <div class="card-body">
+                            <span class="news-badge badge-blue">รางวัล</span>
+                            <h4 class="side-title">
+                                ขอแสดงความยินดีกับนักศึกษา 🎉👏
+                                ภาควิชาวิศวกรรมไอโอทีและสารสนเทศ คณะวิศวกรรมศาสตร์ สจล.🎓✨
+                                ที่เข้าร่วมการแข่งขัน 🧠 “Hackathon ปราบซื้อเสียง” ของ กกต. 🗳️
+                                ณ มหาวิทยาลัยธรรมศาสตร์ ศูนย์รังสิต และสามารถคว้ารางวัลมาได้สำเร็จ 🏆🌟
+                                🥈 รางวัลรองชนะเลิศอันดับที่ 1
+                                🏅 รางวัล Popular Vote </h4>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <img src="pic/5.jpg"
+                            alt="News 5">
+                        <div class="card-body">
+                            <span class="news-badge badge-green">งานวิจัย</span>
+                            <h4 class="side-title">
+                                🎉 คณะวิศวกรรมศาสตร์ สจล. ขอแสดงความยินดีกับ
+                                “ศาสตราจารย์ ดร.อภิรัฐ ศิริธราธิวัตร”
+                                ในโอกาสได้รับ #รางวัลนักวิจัยดีเด่นแห่งชาติ ประจำปี 2569
+                                สาขาวิศวกรรมศาสตร์และอุตสาหกรรมวิจัย
+                                จาก สำนักงานการวิจัยแห่งชาติ (วช.) </h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </section>
+
+    <section class="activity-section">
+        <div class="header-title-container">
+            <div class="header-line" style="margin-right: 20px;"></div>
+            <h1 class="header-title">IOTE NEWS</h1>
+        </div>
+
+        <div class="sub-title" style="color: #613b15; text-align:right;">ACTIVITIES</div>
+
+        <div class="hero-layout">
+
+            <div class="card hero-main-card">
+                <img
+                    src="pic/6.jpg">
+                <div class="card-body">
+                    <span class="news-badge badge-orange">กิจกรรม</span>
+                    <span style="font-size: 11px; color: #888; margin-left: 10px;">📅 24 ธ.ค. 2025</span>
+                    <h2 class="hero-title">บรรยากาศงาน IOTE CAMP ครั้งที่ 2 สนุกสุดมันส์!</h2>
+                    <p class="hero-desc">หวังว่าน้องๆ ทุกคนจะได้รับความสนุก ความรู้ และประสบการณ์กันแบบเต็มที่
+                        ไม่ว่าจะเป็นด้าน IoT, Electronics, Computer Programming, Web & Mobile App Development
+                        ซึ่งล้วนเป็นพื้นฐานสำคัญในโลกของ Internet of Things 🚀
+                        และหวังอีกว่าค่ายนี้จะเป็นอีกหนึ่งก้าวสำคัญที่ช่วยจุดประกายความฝัน และสร้างแรงบันดาลใจให้น้องๆ
+                        บนเส้นทางสายเทคโนโลยี
+                        ขอบคุณอาจารย์ วิทยากร พี่ๆ น้องๆ ทุกคนที่ทำให้ IoTE Camp ครั้งที่ 2 สำเร็จลุล่วงด้วยดี 🙏✨
+                        เจอกันใหม่ปีหน้านะคะ ขอบคุณค่าาาาา 😻👋💫</p>
+                    <a href="#" class="read-more-btn">อ่านรายละเอียดเพิ่มเติม <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="hero-side-cards">
+
+                <div class="card side-card">
+                    <img src="pic/7.jpg" alt="AI Cyber Camp 2025">
+                    <div class="card-body">
+                        <span class="news-badge badge-orange">กิจกรรม</span>
+                        <h4 class="side-title">📸✨ภาพบรรยากาศ AI Cyber Camp 2025✨📸
+                            จบลงไปแล้วกับ AI Cyber Camp 2025
+                            ขอบคุณน้อง ๆ ทุกคนที่มาร่วมเรียนรู้ แบ่งปันไอเดีย และสร้างประสบการณ์ดี ๆ ไปด้วยกัน 💙
+                            ตลอดทั้งค่ายเต็มไปด้วยพลัง ความตั้งใจ และความสนุกจากการเรียนรู้ด้าน AI และ Cybersecurity
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="card side-card">
+                    <img src="pic/8.jpg" alt="Christian Gether">
+                    <div class="card-body">
+                        <span class="news-badge badge-orange">กิจกรรม</span>
+                        <h4 class="side-title">ขอขอบคุณ คุณ Christian Gether และ DEWETRON
+                            ที่ให้ความรู้และสร้างแรงบันดาลใจให้กับนักศึกษาของเรา! 🙏✨
+                            เมื่อวันพุธที่ 3 ธันวาคม 2568 ภาควิชาวิศวกรรมไอโอทีและสารสนเทศ (IoT and Information
+                            Engineering) ได้รับเกียรติอย่างสูงจาก คุณ Christian Gether (DEWETRON)
+                            บริษัทชั้นนำด้านระบบเก็บข้อมูลและวิเคราะห์สัญญาณ DEWETRON ประเทศออสเตรีย 🇦🇹
+                            เข้าเยี่ยมชมภาควิชาและพบปะพูดคุยกับคณาจารย์และนักศึกษาอย่างเป็นกันเอง!</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="innovators-section">
+        <div class="header-title-container">
+            <h1 class="header-title">IOTE NEWS</h1>
+            <div class="header-line" style="margin-left: 20px;"></div>
+        </div>
+        <div class="sub-title" style="color: #613b15;">AWARDS</div>
+
+        <div class="hero-layout">
+
+            <div class="card hero-main-card">
+                <img src="pic/9.jpg"
+                    alt="RedBanana Award">
+                <div class="card-body">
+                    <span class="news-badge badge-blue">รางวัล</span>
+                    <span style="font-size: 11px; color: #888; margin-left: 10px;">📅 3 ธ.ค. 2025</span>
+                    <h2 class="hero-title">🎉 ขอแสดงความยินดีกับทีม RedBanana 🥈</h2>
+                    <p class="hero-desc">คว้ารางวัล รองชนะเลิศอันดับ 1 (1st Runner-up) 🥈
+                        จากการแข่งขัน “Vision-Language Model for Smart Manufacturing Hackathon”
+                        จัดโดย สมาคมปัญญาประดิษฐ์ประเทศไทย (AFTI) ร่วมกับภาคีภาครัฐและเอกชน
+                        จัดขึ้นระหว่างวันที่ 29–30 พฤศจิกายน 2025
+                        ณ โรงแรมแมนดาริน กรุงเทพฯ</p>
+                    <a href="#" class="read-more-btn">อ่านรายละเอียดเพิ่มเติม<i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="hero-side-cards">
+
+                <div class="card side-card">
+                    <img src="pic/10.jpg" alt="SPACE QUEST 2025">
+                    <div class="card-body">
+                        <span class="news-badge badge-blue">รางวัล</span>
+                        <h4 class="side-title">ทีม “Bitflow” คว้ารองชนะเลิศอันดับ 1 🏆 จากเวที SPACE QUEST 2025
+                            จุดไฟไอเดียสู่อวกาศยุคใหม่! 🚀🌌</h4>
+                    </div>
+                </div>
+
+                <div class="card side-card">
+                    <img src="pic/11.jpg" alt="VR Activity">
+                    <div class="card-body">
+                        <span class="news-badge badge-blue">รางวัล</span>
+                        <h4 class="side-title">ทีม “เพราะรักมันทำร้าย เลยย้ายมาทำแอป” #วิศวกรรมไอโอทีและสารสนเทศ
+                            #วิศวลาดกระบัง คว้ารางวัลรองชนะเลิศอันดับ 2💡เวที Innovative Ideas – The Startup Challenges
+                            2025! 🚀</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="research-section" id="news-filter-section">
+        <div class="header-title-container">
+            <div class="header-line" style="margin-right: 20px;"></div>
+            <h1 class="header-title">IOTE NEWS</h1>
+        </div>
+
+        <div class="sub-title" style="color: #613b15; text-align:right;">ALL NEWS & UPDATES</div>
+
+        <div class="search-container">
+            <input type="text" id="newsSearchInput" class="search-input"
+                placeholder="ค้นหาข่าว, หรือพิมพ์ชื่อ Badge (เช่น รางวัล, งานวิจัย)...">
+            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div class="filter-menu">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="award">Award</button>
+            <button class="filter-btn" data-filter="activity">Activity</button>
+            <button class="filter-btn" data-filter="research">Research</button>
+        </div>
+
+        <div class="grid-container" id="filterable-grid">
+
+            <div class="card filter-item" data-category="research">
+                <img src="pic/5.jpg"
+                    alt="News 5">
+                <div class="card-body">
+                    <span class="news-badge badge-green">งานวิจัย</span>
+                    <h4 class="side-title">
+                        🎉 คณะวิศวกรรมศาสตร์ สจล. ขอแสดงความยินดีกับ
+                        “ศาสตราจารย์ ดร.อภิรัฐ ศิริธราธิวัตร”
+                        ในโอกาสได้รับ #รางวัลนักวิจัยดีเด่นแห่งชาติ ประจำปี 2569
+                        สาขาวิศวกรรมศาสตร์และอุตสาหกรรมวิจัย
+                        จาก สำนักงานการวิจัยแห่งชาติ (วช.) </h4>
+                </div>
+            </div>
+
+            <div class="card filter-item" data-category="award">
+                <img src="pic/11.jpg"
+                    alt="VR Activity">
+                <div class="card-body">
+                    <span class="news-badge badge-blue">รางวัล</span>
+                    <h4 class="side-title">ทีม “เพราะรักมันทำร้าย เลยย้ายมาทำแอป” #วิศวกรรมไอโอทีและสารสนเทศ
+                        #วิศวลาดกระบัง คว้ารางวัลรองชนะเลิศอันดับ 2💡เวที Innovative Ideas – The Startup Challenges
+                        2025! 🚀</h4>
+                </div>
+            </div>
+
+            <div class="card filter-item" data-category="activity" data-type="recruit" data-event-id="camp-01">
+                        <img src="pic/3.jpg"
+                    alt="News 3">
+                <div class="card-body">
+                    <span class="news-badge badge-red">รับสมัครนักศึกษา</span><br>
+                    <span class="slots-indicator" data-event-id="camp-01"></span>
+                    <h4 class="side-title">
+                        รับสมัครสตาฟทุกชั้นปี สำหรับงาน Open House เปิดบ้านวิศวะต้อนรับน้องๆ มัธยม </h4>
+                </div>
+
+            </div>
+
+            <div class="card filter-item" data-category="award">
+                <img src="pic/4.jpg"
+                    alt="News 4">
+                <div class="card-body">
+                    <span class="news-badge badge-blue">รางวัล</span>
+                    <h4 class="side-title">
+                        ขอแสดงความยินดีกับนักศึกษา 🎉👏
+                        ภาควิชาวิศวกรรมไอโอทีและสารสนเทศ คณะวิศวกรรมศาสตร์ สจล.🎓✨
+                        ที่เข้าร่วมการแข่งขัน 🧠 “Hackathon ปราบซื้อเสียง” ของ กกต. 🗳️
+                        ณ มหาวิทยาลัยธรรมศาสตร์ ศูนย์รังสิต และสามารถคว้ารางวัลมาได้สำเร็จ 🏆🌟
+                        🥈 รางวัลรองชนะเลิศอันดับที่ 1
+                        🏅 รางวัล Popular Vote </h4>
+                </div>
+            </div>
+
+            <div class="card filter-item" data-category="activity">
+                <img src="pic/7.jpg"
+                    alt="AI Cyber Camp 2025">
+                <div class="card-body">
+                    <span class="news-badge badge-orange">กิจกรรม</span>
+                    <h4 class="side-title">📸✨ภาพบรรยากาศ AI Cyber Camp 2025✨📸
+                        จบลงไปแล้วกับ AI Cyber Camp 2025
+                        ขอบคุณน้อง ๆ ทุกคนที่มาร่วมเรียนรู้ แบ่งปันไอเดีย และสร้างประสบการณ์ดี ๆ ไปด้วยกัน 💙
+                        ตลอดทั้งค่ายเต็มไปด้วยพลัง ความตั้งใจ และความสนุกจากการเรียนรู้ด้าน AI และ Cybersecurity
+                    </h4>
+                </div>
+            </div>
+
+            <div class="card filter-item" data-category="activity">
+                <img
+                    src="pic/6.jpg">
+                <div class="card-body">
+                    <span class="news-badge badge-orange">กิจกรรม</span>
+                    <span style="font-size: 11px; color: #888; margin-left: 10px;">📅 24 ธ.ค. 2025</span>
+                    <h2 class="hero-title">บรรยากาศงาน IOTE CAMP ครั้งที่ 2 สนุกสุดมันส์!</h2>
+                    <p class="hero-desc">หวังว่าน้องๆ ทุกคนจะได้รับความสนุก ความรู้ และประสบการณ์กันแบบเต็มที่
+                        ไม่ว่าจะเป็นด้าน IoT, Electronics, Computer Programming, Web & Mobile App Development
+                        ซึ่งล้วนเป็นพื้นฐานสำคัญในโลกของ Internet of Things 🚀
+                        และหวังอีกว่าค่ายนี้จะเป็นอีกหนึ่งก้าวสำคัญที่ช่วยจุดประกายความฝัน และสร้างแรงบันดาลใจให้น้องๆ
+                        บนเส้นทางสายเทคโนโลยี
+                        ขอบคุณอาจารย์ วิทยากร พี่ๆ น้องๆ ทุกคนที่ทำให้ IoTE Camp ครั้งที่ 2 สำเร็จลุล่วงด้วยดี 🙏✨
+                        เจอกันใหม่ปีหน้านะคะ ขอบคุณค่าาาาา 😻👋💫</p>
+                    <a href="#" class="read-more-btn">อ่านรายละเอียดเพิ่มเติม <i
+                            class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-left">
+            <h4 class="footer-heading">Connect with IOT KMITL</h4>
+            <div class="contact-info">
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/IOTE.KMITL" target="_blank">
+                        <i class="fa-brands fa-square-facebook"></i>
+                    </a>
+
+                    <a href="https://www.instagram.com/kmitl.iote.official?fbclid=IwY2xjawQKS4VleHRuA2FlbQIxMABicmlkETIxd3NCTzJtVnE4ZlY3NjI5c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHjcWmaXV3eEym0lPrs4ecofayuT7VoH3XkZOhyDJuH546tHFEoZbMlP0cS68_aem_m3Lopa6hOla_hgNYOKbWRA"
+                        target="_blank">
+                        <i class="fa-brands fa-square-instagram"></i>
+                    </a>
+
+                    <a href="mailto:iote@kmitl.ac.th">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
+
+                    <a href="tel:023298000">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
+                </div>
+                <div class="phone-numbers">
+                    <span>02-329-8000 ext.5129</span><br>
+                    <span>02-329-8301 ext.235</span>
+                </div>
+            </div>
+            <div class="footer-logo">
+                <img src="pic/IOTE.png" alt="IOTE Logo" style="height: 60px; margin-right: 15px;">
+            </div>
+        </div>
+
+        <div class="footer-right">
+            <h3>Department of IoT and Information Engineering</h3>
+            <p>
+                ภาควิชาวิศวกรรมไอโอทีและสารสนเทศ<br>
+                คณะวิศวกรรมศาสตร์ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง<br>
+                ชั้น 12 อาคารเรียนรวม 12 ชั้น<br>
+                เลขที่ 1 ซอยฉลองกรุง 1 แขวงลาดกระบัง เขตลาดกระบัง<br>
+                กรุงเทพมหานคร 10520
+            </p>
+        </div>
+    </footer>
+    </div>
+
+    <button id="scrollTopBtn" class="scroll-top-btn" title="กลับไปบนสุด">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <div id="newsModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <img id="modalImage" src="" alt="News Image">
+            <div class="modal-body">
+                <span id="modalBadge" class="news-badge"></span>
+                <span id="modalSlots" class="slots-badge" style="display:none;"></span>
+
+                <h2 id="modalTitle">หัวข้อข่าว</h2>
+                <p id="modalDescription">เนื้อหาข่าวฉบับเต็ม...</p>
+
+                <div id="registrationSection" class="registration-section" style="display: none;">
+                    <h3>📝 ลงทะเบียนสมัคร (เฉพาะนักศึกษา)</h3>
+                    <p style="font-size: 12px; color: #666; margin-bottom: 15px;">ระบบจะยืนยันตัวตนด้วยอีเมล
+                        @kmitl.ac.th เท่านั้น</p>
+
+                    <div id="googleSignInContainer"
+                        style="display: flex; justify-content: center; margin-bottom: 10px;">
+                        <div id="g_id_onload" data-client_id="75291653813-t6kk42bootq130linle5mfshululaith.apps.googleusercontent.com"
+                            data-context="signin" data-ux_mode="popup" data-callback="handleGoogleLogin"
+                            data-auto_prompt="false" data-use_fedcm_for_prompt="true"> </div>
+
+                        <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                            data-text="sign_in_with" data-size="large" data-logo_alignment="left">
+                        </div>
+                    </div>
+
+                    <p id="regStatusMsg"
+                        style="text-align: center; font-size: 14px; font-weight: bold; margin-top: 10px;"></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>

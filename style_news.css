@@ -7,10 +7,17 @@
     --font-body: 'Prompt', sans-serif;
 }
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* --- General Setup --- */
 body {
-    margin: 0;
-    font-family: 'Prompt', sans-serif;
+    font-family: var(--font-body);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
 }
 
 .wrapper {
@@ -20,6 +27,8 @@ body {
     background-color: var(--bg-light);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+a { text-decoration: none; color: inherit; }
 
 /* Navbar */
 .navbar {
@@ -41,18 +50,6 @@ body {
     object-fit: contain; /* มั่นใจว่าภาพจะไม่โดนตัด */
 }
 .nav-links { list-style: none; display: flex; gap: 50px; font-size: 0.8rem; font-weight: 600; }
-
-/* จัดการตัวอักษรลิงก์ในเมนู Nav */
-.nav-links a {
-    text-decoration: none !important; /* สั่งเอาเส้นใต้ขีดๆ ออก */
-    color: var(--text-dark) !important; /* สั่งเปลี่ยนสีเป็นสีเทาเข้ม/ดำ */
-    transition: color 0.3s ease; /* ทำให้เวลาเอาเมาส์ชี้ สีจะค่อยๆ เปลี่ยนแบบนุ่มนวล */
-}
-
-/* เวลาเอาเมาส์ชี้ที่ลิงก์ ให้เปลี่ยนเป็นสีส้ม */
-.nav-links a:hover {
-    color: var(--primary-orange) !important;
-}
 
 .nav-links li:hover { 
     color: var(--primary-orange); }
@@ -436,15 +433,12 @@ body {
     background-color: #6c757d;
 }
 
-/* ข่าวประกาศ สีเทา */
-
 /* --- Footer Section --- */
 .footer {
     display: flex;
     justify-content: space-between;
     background-color: #fafafa;
     padding: 60px 40px;
-    /* เพิ่มพื้นที่ว่างให้ดูโปร่งขึ้น */
     border-top: 2px solid #eee;
     margin-top: 20px;
 }
@@ -457,7 +451,6 @@ body {
     color: #d94a26;
     margin: 0 0 15px 0;
     font-size: 18px;
-    /* ใหญ่ขึ้นจาก 14px */
     font-weight: bold;
 }
 
@@ -471,9 +464,7 @@ body {
 .social-icons {
     display: flex;
     gap: 15px;
-    /* ถ่างระยะห่างไอคอน */
     font-size: 36px;
-    /* ใหญ่ขึ้นจาก 28px */
     color: #444;
 }
 
@@ -490,8 +481,7 @@ body {
 }
 
 .phone-numbers {
-    font-size: 16px;
-    /* ใหญ่ขึ้นจาก 10px (สำคัญมาก) */
+    font-size: 10px;
     line-height: 1.6;
     font-weight: bold;
 }
@@ -508,15 +498,13 @@ body {
 
 .footer-right h3 {
     margin: 0 0 15px 0;
-    font-size: 22px;
-    /* ใหญ่ขึ้นจาก 16px */
+    font-size: 16px;
     color: #000;
 }
 
 .footer-right p {
     margin: 0;
-    font-size: 16px;
-    /* ใหญ่ขึ้นจาก 12px */
+    font-size: 12px;
     line-height: 1.8;
     color: #333;
 }
@@ -857,9 +845,6 @@ body {
 
 /* 2. โน้ตบุ๊กทั่วไป (1366 x 768) */
 @media screen and (max-width: 1366px) {
-    .nav-links {
-        gap: 25px;
-    }
 
     .hero-main-card img {
         height: 320px;
@@ -890,28 +875,12 @@ body {
 
 /* 3. iPad แนวนอน (1024 x 768) */
 @media screen and (max-width: 1024px) {
-    .nav-links {
-        gap: 15px;
-        font-size: 0.75rem;
-    }
-
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .header-title {
         font-size: 40px;
-    }
-
-    /* Footer เริ่มหดเป็นแนวตั้งซ้อนกัน */
-    .footer {
-        flex-direction: column;
-        gap: 40px;
-        padding: 40px 30px;
-    }
-
-    .footer-right {
-        padding-left: 0;
     }
 
     /* ปรับ Slider ให้แสดง 2 การ์ดบน iPad */
@@ -922,31 +891,51 @@ body {
 }
 
 /* 4. แท็บเล็ต iPad แนวตั้ง (768 x 1024) */
-@media screen and (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
-    }
-
-    .hamburger {
-        display: block;
-        color: var(--primary-orange);
-    }
-
-    .nav-links {
-        display: none;
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    
+    .dropdown-menu {
         flex-direction: column;
+        align-items: flex-start;
         width: 100%;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        background-color: var(--bg-light);
-        padding: 20px 0;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        gap: 15px;
+    }
+    .dropdown-menu > a {
+        width: 100%;
+        display: flex;
+        /* justify-content: space-between; */
+        align-items: center;
     }
 
-    .nav-links.active {
-        display: flex !important;
+    .dropdown-content {
+        position: relative; 
+        top: 0 !important;
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none; 
+        background-color: #d95e16; 
+        
+        display: none; 
+        visibility: visible;
+        opacity: 1;
+        border-radius: 5px; 
+        padding-left: 15px; 
+    }
+
+    .dropdown-menu.align-right .dropdown-content {
+        right: auto;
+    }
+
+    .dropdown-menu:hover .dropdown-content,
+    .dropdown-menu:active .dropdown-content,
+    .dropdown-menu:focus-within .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-menu:hover .arrow,
+    .dropdown-menu:active .arrow,
+    .dropdown-menu:focus-within .arrow {
+        transform: rotate(180deg);
     }
 
     .grid-container {
@@ -981,10 +970,14 @@ body {
         margin: 0 !important;
     }
 
-    /* จัด Footer ให้อยู่กึ่งกลางเพื่อความสวยงามบนจอแนวตั้ง */
     .footer {
-        text-align: center;
-        padding: 40px 20px;
+        flex-direction: column;
+        padding: 30px 20px;
+        gap: 30px;
+    }
+
+    .footer-right {
+        padding-left: 0;
     }
 
     .contact-info,
@@ -1012,10 +1005,7 @@ body {
     .slider-track {
         display: flex !important;
         flex-wrap: nowrap !important;
-        
-        /* 🔥 แก้ไข 1: เปลี่ยนจาก auto เป็น max-content เพื่อบังคับให้รางยาวทะลุขอบจอ */
         width: max-content !important; 
-        
         transform: none !important;
         transition: none !important;
         gap: 15px !important;
@@ -1025,8 +1015,6 @@ body {
     .slider-track .card {
         flex: 0 0 85vw !important;
         max-width: 85vw !important;
-        
-        /* 🔥 แก้ไข 2: สั่งห้ามการ์ดหดตัวเด็ดขาด (ป้องกันการโดนบีบจนเลื่อนไม่ได้) */
         flex-shrink: 0 !important; 
         scroll-snap-align: center;
     }
@@ -1038,8 +1026,53 @@ body {
 }
 
 /* 5. มือถือ (375 x 812) */
-@media screen and (max-width: 375px) {
+@media (max-width: 375px) {
 
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    
+    .dropdown-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .dropdown-menu > a {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dropdown-content {
+        position: relative; 
+        top: 0 !important;
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none; 
+        background-color: #d95e16; 
+        
+        display: none; 
+        visibility: visible;
+        opacity: 1;
+        border-radius: 5px; 
+        padding-left: 15px; 
+    }
+
+    .dropdown-menu.align-right .dropdown-content {
+        right: auto;
+    }
+
+    .dropdown-menu:hover .dropdown-content,
+    .dropdown-menu:active .dropdown-content,
+    .dropdown-menu:focus-within .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-menu:hover .arrow,
+    .dropdown-menu:active .arrow,
+    .dropdown-menu:focus-within .arrow {
+        transform: rotate(180deg);
+    }
     .highlights-section,
     .research-section,
     .innovators-section,
@@ -1084,21 +1117,6 @@ body {
         font-size: 16px;
     }
 
-    /* บีบขนาด Footer สำหรับจอมือถือเล็กๆ โดยยังคงอ่านง่าย */
-    .footer {
-        padding: 30px 15px;
-        gap: 30px;
-    }
-
-    .footer-heading {
-        font-size: 15px;
-    }
-
-    .footer-right h3 {
-        font-size: 18px;
-    }
-
-    .footer-right p,
     .phone-numbers {
         font-size: 13px;
     }

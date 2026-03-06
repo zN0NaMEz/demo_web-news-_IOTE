@@ -5,6 +5,7 @@ const mysql = require('mysql2/promise');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 // ==========================================
 // ตั้งค่าการเชื่อมต่อฐานข้อมูล MySQL (XAMPP)
